@@ -1,5 +1,5 @@
-# SCC LS2 docs
-Aurora documentation from the eye of a bioinformatician
+# SCC COSMOS-SENS docs
+Documentation about COSMOS-SENS for users at the SCC.
 
 
 The documentation is created by using the python package MkDocs.
@@ -10,4 +10,3 @@ mkdocs build
 mkdocs gh-deploy
 ```
 
-This will update [the public web page](https://stela2502.github.io/aurora_docu/) if I do it.
