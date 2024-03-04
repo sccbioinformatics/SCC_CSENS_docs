@@ -1,14 +1,14 @@
-# Instructions for Bioinformaticians using the Lund Stem Cell Center LS2 compute platform.
+# Instructions for Bioinformaticians at the Lund Stem Cell Center using COSMOS-SENS at LUNARC.
 
-Congratulations, you have been deemed worthy enough to be granted access to LS2.
+
 
 In order to keep the system orderly we have set out some guidelines which everyone should follow to maintain a smoothly running platform. Please read this document *carefully* before you use the system.
 
-## What is LS2?
+## What is COSMOS-SENS?
 
-The GDPR is an EU directive that protects information and data of individuals, therefore sequence data from living subjects has to be kept secure under these rules. LS2 is a isolated HPC platform housed at LUNARC where we handle and analyse sequence data under these GDPR rules. ***This means LS2 doesn't have a connection to the internet***, and transfering data to/from LS2 is done via inbox/outbox system. In practical terms, many within the SCC use LS2 to analyse data from other species (mouse/rat etc) as this is where our main storage is kept.
+The GDPR is an EU directive that protects information and data of individuals, therefore sequence data from living subjects has to be kept secure under these rules. COSMOS-SENS is a isolated HPC platform housed at LUNARC where we handle and analyse sequence data under GDPR rules. ***This means COSMOS-SENS doesn't have a connection to the internet***, and transfering data to/from CS is done via sftp (more later). In practical terms, many within the SCC use COSMOS-SENS to analyse data from other species (mouse/rat etc) as this is where our main storage is kept.
 
-## Getting access to LS2
+## Getting access to COSMOS-SENS
 
 ### 1) Make an account at SUPR
 
@@ -24,57 +24,42 @@ LUNARC also uses two-factor authentication using Pocket Pass. Follow the instruc
 
 ### 4) Request a Static IP address
 
-As a further layer of security we employ IP addrss filtering to make sure only authorised users cann see a connection to LS2. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted.
+This is important. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP adress for your port number. Communicate this IP adress at the same time so both VPN and fixed port IPs can be whitelisted.
 
 ### 5) Setup the VPN on your laptop/workstation
 
 Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=kb_article_en&sys_id=39c1256187ed8190e42687fc8bbb3578) (will require lucat login) and setup the VPN on your device.
 
 
-## Connecting to Aurora LS2
+# WARNING!
 
-If all the above has been done, fire up your VPN and try to connect.
+**DO NOT SHARE YOUR PASSWORD! This volates the terms of he agreement and your account will be disabled if caught.**
 
-### Server address
+## Connecting to COSMOS-SENS
 
-The server address is aurora-ls2.lunarc.lu.se. You can connect using a terminal:
+The only way to use COSMOS-SENS is via a web browser where you point it to:
 
-```
-ssh <username>@aurora-ls2.lunarc.lu.se
-```
-It will ask for your password, and then your two-factor code from your Pocket Pass.
+[https://sens05.lunarc.lu.se](https://sens05.lunarc.lu.se)
 
- You can also connect using Thinlinc which gives you a full Linux desktop. Follow the instuctions [here](https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/) to use that. 
+Login with your **LUNARC** credentials and then using using two-factor authentication using Pocket Pass.
 
 ## Where do I put my data?
 
-LS2 has four primary drives fs1, fs3, fs5 and fs7 found at:
+TBC
 
+Storage is expensive so what we have should be used efficiently. There are two main folders on COSMOS-SENS:
 
-/projects/fs1/<username\>
+`/raw/<userid>`
+and
+`/processed/<userid>`
 
-/projects/fs3/<username\>
+## /raw
+This is where you can put raw fastq files. This folder is limited to 400Tb and is backed up to a mirror nightly. Please make sure that fastq files are gzipped.
 
-/projects/fs5/<username\>
+## /processed
+This is where intermediate files should be placed. For example the output from your pipelines that process the data from fastq files. If you use any of the nf-core pipelines, make sure you delete the `work` folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards of they have been converted to BAM.
 
-/projects/fs7/<username\>
-
-
-Each of these drives are mirrored nightly to a unit the same size. No snapshots are stored, this is merely to protect against mechanical failure.
-
-These drives should be used in a certain way, and this is how:
-
-1. **Raw data** - this (and ONLY this) should go to /projects/**fs5**/\<username\>
-    Raw data are e.g. fastq files (gzipped!!) or raw read folders.
-
-2. **Processed data** (BAMS, counts etc) should be directed to either **fs1** or **fs3** depending on which one you were assigned to when given access. Intermediate files such as SAM files etc should be removed to save space.
-
-3. Raw data that has been published should be *moved* to **fs7** for achive.
-
-4. Scripts should be stored on fs1/fs3.
-
-**UNLESS INSTRUCTED OTHERWISE, ASSUME YOUR PLACE IS ON FS1**
-
+**This folder is not backed up!** Anything you produced here should be reproducible from your data in `/raw` and your scripts in `/home/<userid>`.
 
 ## Modules
 Software on Aurora is organised into modules which are loaded when needed, usually when a job is submitted. a rundown of the module system can be seen [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/), but lets load bowtie2 as an example:
@@ -153,13 +138,13 @@ $ module purge
 This is done by LUNARC and they have aksed that all software request go through us. If you need something installed please email Shamit with a URL to what is needed. You can also transfer software across using singularity images (see below).
 
 ## Running jobs
-When you login into LS2 you will be using the front-end (FE). **This is not a place to run long computations**. The FE is for small intractive jobs, and many people work here which is why long memory and processor intensive jobs should be sent to a compute node.
+When you login into COSMOS-SENS you will be located on the front-end (FE). **This is not a place to run long computations**. The FE is for small interactive jobs, and many people work here. Long memory and processor intensive jobs should be sent to a compute node.
 
 ### SLURM
 Any jobs such as making and mapping fastq files should be sent to the blades, and for this, LUNARC uses the SLURM job submission system. See below and [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_basic_job/) for basic guidelines on how to submit a job.
 
 ### Project code
-For those registered to the LS2 project, the code needed to submit the job is **lsens2018-3-3** and this is what you specify in the preamble of you script. For example let say you have a script for mapping reads called `Run_bowtie.sh`:
+For those registered to out COSMOS-SENS project, the code needed to submit the job is **csens2024-3-4** and this is what you specify in the preamble of you script. For example let say you have a script for mapping reads called `Run_bowtie.sh`:
 
 ```
 #! /bin/bash
@@ -176,7 +161,7 @@ module load GCC/10.3.0 Bowtie2/2.4.4
 
 bowtie2 .....
 ```
-In short ```-n 5 ``` requests 5 CPU cores, ```-N 1``` requests one node (don't ask for more), ```-t 24:00:00``` kills the job after 24 hours, ```-A lsens2018-3-3``` specifies the project code, ```-J BT2``` is the name of your job, ```-o BT2.%j.out``` is the outfile of the job (name+job id),```-e BT2.%j.err``` is where the error log goes.
+In short ```-n 5 ``` requests 5 CPU cores, ```-N 1``` requests one node (do not ask for more), ```-t 24:00:00``` kills the job after 24 hours, ```-A csens2024-3-2``` specifies the project code, ```-J BT2``` is the name of your job, ```-o BT2.%j.out``` is the outfile of the job (name+job id),```-e BT2.%j.err``` is where the error log goes.
 
 
 
