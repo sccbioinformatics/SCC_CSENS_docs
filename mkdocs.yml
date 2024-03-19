@@ -1,4 +1,4 @@
-site_name: SCC LS2 Documentation
+site_name: SCC COSMOS-SENS Documentation
 nav:
     - Home: index.md
 theme: readthedocs
