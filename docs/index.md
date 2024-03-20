@@ -259,7 +259,7 @@ STAR ...\\
 --readFilesIn /somewhere/clusterPipeline/merged_cluster/*.gz \\
 ... <rest of STAR command>\\
 --outFileNamePrefix $SNIC_TMP/out/MyAnanlysis_
-cp $SNIC_TMP/out/MyAnanlysis_* /pathtofinaldestination/
+cp $SNIC_TMP/out/MyAnanlysis_* /processed/<userid>/pathtofinaldestination/
 ```
 
 So in this case, the output is directed to the **local** storage at `$SNIC_TMP/out/MyAnanlysis_`, and once the mapping is complete the results are copied to where you want you need them.
@@ -329,7 +329,7 @@ module load Java/11.0.20
 nextflow run  /home/ssoneji/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf \
 -profile singularity \
 --input samplesheet.csv \
--c /home/ssoneji/nf_core/cosmos_sens_05.config \
+-c /home/common/nf_core/cosmos_sens_05.config \
 --genome GRCm38 \
 --igenomes_base /references/AWS-iGenomes/ \
 --outdir /home/ssoneji/RNAseq_project/NFC_out
