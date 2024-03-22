@@ -8,6 +8,10 @@ In order to keep the system orderly we have set out some guidelines which everyo
 
 The GDPR is an EU directive that protects information and data of individuals, therefore sequence data from living subjects has to be kept secure under these rules. COSMOS-SENS is a isolated HPC platform housed at LUNARC where we handle and analyse sequence data under GDPR rules. ***This means COSMOS-SENS doesn't have a connection to the internet***, and transfering data to/from CS is done via sftp (more later). In practical terms, many within the SCC use COSMOS-SENS to analyse data from other species (mouse/rat etc) as this is where our main storage is kept.
 
+## Who is COSMOS-SENS for?
+
+Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform.
+
 ## Some general ground rules
 
 1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data into `/raw`, and make sure it's compressed.
@@ -97,9 +101,9 @@ i.e you don't need the `.lunarc.lu.se` part.
 
 Storage is expensive, so what we have should be used efficiently. There are two main folders on COSMOS-SENS:
 
-`/raw/<userid>`
+`/scale/gr01/shared/raw/<userid>`
 and
-`/processed/<userid>`
+`/scale/gr01/shared/processed/<userid>`
 
 #### /raw
 This is where you can put raw fastq files. **This folder is limited to 400Tb and is backed up to a mirror nightly**. Please make sure that fastq files are gzipped.
@@ -299,7 +303,7 @@ You should then logout of COSMOS-SENS and log back in so these changes take effe
 
 When running a job, use the config file located here:
 
-`/home/common/nf_core/cosmos_sens_grp5.config`
+`/home/common/nf_core/cosmos_sens_scc.config`
 
 and load Java first before you invoke the pipeline:
 
@@ -329,10 +333,10 @@ module load Java/11.0.20
 nextflow run  /home/ssoneji/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf \
 -profile singularity \
 --input samplesheet.csv \
--c /home/common/nf_core/cosmos_sens_05.config \
+-c /home/common/nf_core/cosmos_sens_scc.config \
 --genome GRCm38 \
 --igenomes_base /references/AWS-iGenomes/ \
---outdir /home/ssoneji/RNAseq_project/NFC_out
+--outdir /scale/gr01/shared/processed/<userid>/RNAseq_project/NFC_out
 
 ```
 
