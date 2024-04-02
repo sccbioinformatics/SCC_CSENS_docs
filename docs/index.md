@@ -20,9 +20,11 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 3) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
 
-4) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+4) **Do not duplidate files between personal and shared folder**. This is especially true for files in `backup`.
 
-5) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
+5) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+
+6) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
 
 ## Getting access to COSMOS-SENS
 
