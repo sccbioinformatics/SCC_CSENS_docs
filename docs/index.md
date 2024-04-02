@@ -16,7 +16,7 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data into `/backup`, and make sure it is compressed.
 
-2) Do not put published data into `/backup`. When you publish your own data, move the raw data out of `/backup` to free space.
+2) **Do not put published data into `/backup`**. When you publish your own data, move the raw data out of `/backup` to somewhere outside this folder.
 
 3) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
 
@@ -103,7 +103,7 @@ Storage is expensive, so what we have should be used efficiently. There are two 
 
 Your `home` folder will contain a folder called `backup`.
 
-#### /home/<userid>/backup
+#### /home/<<userid>>/backup
 This is where you can put raw fastq files. **This folder is limited to 400Tb and is backed up to a mirror nightly**. Please make sure that fastq files are gzipped.
 
 ### /home/<userid>
