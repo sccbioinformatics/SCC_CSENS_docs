@@ -14,13 +14,15 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 ## Some general ground rules
 
-1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data into `/raw`, and make sure it's compressed.
+1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data into `/backup`, and make sure it is compressed.
 
-2) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
+2) Do not put published data into `/backup`. When you publish your own data, move the raw data out of `/backup` to free space.
 
-3) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+3) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
 
-4) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
+4) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+
+5) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
 
 ## Getting access to COSMOS-SENS
 
@@ -55,7 +57,7 @@ Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=k
 
 The only way to use COSMOS-SENS is via a web browser where you point it to:
 
-[https://sens05.lunarc.lu.se](https://sens05.lunarc.lu.se)
+[https://sens01.lunarc.lu.se](https://sens01.lunarc.lu.se)
 
 Login with your **LUNARC** credentials and then using using two-factor authentication using Pocket Pass. You will be presented with an option as to which GNOME desktop you would like to use. Pick the one you prefer. 
 
@@ -95,23 +97,17 @@ The process is the same when logged into LS2, the connection is made however lik
 
 i.e you don't need the `.lunarc.lu.se` part.
 
-
-
 ## Where do I put my data?
 
 Storage is expensive, so what we have should be used efficiently. There are two main folders on COSMOS-SENS:
 
-`/scale/gr01/shared/raw/<userid>`
-and
-`/scale/gr01/shared/processed/<userid>`
+Your `home` folder will contain a folder called `backup`.
 
-#### /raw
+#### /home/<userid>/backup
 This is where you can put raw fastq files. **This folder is limited to 400Tb and is backed up to a mirror nightly**. Please make sure that fastq files are gzipped.
 
-### /processed
-This is where intermediate files should be placed. For example the output from your pipelines that process the data from fastq files. If you use any of the nf-core pipelines, make sure you delete the `work` folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards of they have been converted to BAM.
-
-**This folder is not backed up!** Anything you produced here should be reproducible from your data in `/raw` and your scripts in `/home/<userid>`.
+### /home/<userid>
+Intermediate files should be placed outside the backup folder. For example, the output from your pipelines that process fastq files. If you use any of the nf-core pipelines, make sure you delete the `work` folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards of they have been converted to BAM.
 
 ## Modules
 Software at LUNARC is organised into modules which are loaded when needed, usually when a job is submitted. a rundown of the module system can be seen [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/), but lets load bowtie2 as an example:
