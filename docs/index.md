@@ -38,21 +38,21 @@ The first thing you need to do is make an account at [SUPR](https://supr.naiss.s
 
 Left menu under accounts. Fill out the details correctly and use your mobile number. This will be needed for 2-factor authentication.
 
-### 2) Sign the agreement
+### 3) Sign the agreement
 
 **LUNARC will send you a digital agreement that you will need sign vie Lucat**. When you have done this someone from LUNARC will contact you with your password.
 
-### 3) Setup 2FA
+### 4) Setup 2FA
 
 LUNARC also uses two-factor authentication using Pocket Pass. Follow the instructions [here](https://lunarc-documentation.readthedocs.io/en/latest/getting_started/authenticator_howto/) to set this up. 
 
-### 4) Request a Static IP address
+### 5) Request a Static IP address
 
 This is important. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP adress for your port number. **Communicate this IP adress at the same time so both VPN and fixed port IPs can be whitelisted**.
 
-### 5) Setup the VPN on your laptop/workstation
+### 6) Setup the VPN on your laptop/workstation
 
-Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=kb_article_en&sys_id=39c1256187ed8190e42687fc8bbb3578) (will require lucat login) and setup the VPN on your device.
+Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=kb_article_en&sys_id=39c1256187ed8190e42687fc8bbb3578) (**will require lucat login**) and setup the VPN on your device.
 
 
 ## WARNING!
