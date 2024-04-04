@@ -16,15 +16,17 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data into `/backup`, and make sure it is compressed.
 
-2) **Do not put published data into `/backup`**. When you publish your own data, move the raw data out of `/backup` to somewhere outside this folder.
+2) **Log out when you are done working** (not just close the browser). We have 20 Thinlinc licenses for our group, so logging out will release a license for someone else.
 
-3) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
+3) **Do not put published data into `/backup`**. When you publish your own data, move the raw data out of `/backup` to somewhere outside this folder.
 
-4) **Do not duplidate files between personal and shared folder**. This is especially true for files in `backup`.
+4) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
 
-5) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+5) **Do not duplidate files between personal and shared folder**. This is especially true for files in `backup`.
 
-6) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
+6) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+
+7) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
 
 ## Getting access to COSMOS-SENS
 
@@ -105,10 +107,10 @@ Storage is expensive, so what we have should be used efficiently. There are two 
 
 Your `home` folder will contain a folder called `backup`.
 
-#### /home/<<userid>>/backup
+#### /home/(userid)/backup
 This is where you can put raw fastq files. **This folder is limited to 400Tb and is backed up to a mirror nightly**. Please make sure that fastq files are gzipped.
 
-### /home/<userid>
+### /home/(userid)
 Intermediate files should be placed outside the backup folder. For example, the output from your pipelines that process fastq files. If you use any of the nf-core pipelines, make sure you delete the `work` folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards of they have been converted to BAM.
 
 ## Modules
