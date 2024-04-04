@@ -14,7 +14,7 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 ## Some general ground rules
 
-1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data into `/backup`, and make sure it is compressed.
+1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data and scripts into `/backup`, and make sure data is compressed.
 
 2) **Log out when you are done working** (not just close the browser). We have 20 Thinlinc licenses for our group, so logging out will release a license for someone else.
 
