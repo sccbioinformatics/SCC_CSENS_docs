@@ -10,7 +10,7 @@ The GDPR is an EU directive that protects information and data of individuals, t
 
 ## Who is COSMOS-SENS for?
 
-Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform.
+Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform. This document is mostly for the benefit of users at the Lund Stem Cell Center.
 
 ## Some general ground rules
 
@@ -116,6 +116,9 @@ This is where you can put raw fastq files. **This folder is limited to 400Tb and
 
 ### /home/(userid)
 Intermediate files should be placed outside the backup folder. For example, the output from your pipelines that process fastq files. If you use any of the nf-core pipelines, make sure you delete the `work` folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards of they have been converted to BAM.
+
+
+**The backup is only for technical issues, it is not intended for file recovery if you do something wrong**. The `/backup` folders are *mirrored* to another drive, so if you delete a file in `/backup` it will also be deleted from the mirror. **We do not take daily/weekly snapshots**.
 
 ## Modules
 Software at LUNARC is organised into modules which are loaded when needed, usually when a job is submitted. a rundown of the module system can be seen [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/), but lets load bowtie2 as an example:
