@@ -40,7 +40,7 @@ Left menu under accounts. Fill out the details correctly and use your mobile num
 
 ### 2) Sign the agreement
 
-**They will send you a user agreement that you will need to print, sign, and scan**. Send the PDF to Shamit for counter-signing, and then someone from LUNARC will then contact you with your password.
+**LUNARC will send you a digital agreement that you will need sign vie Lucat**. When you have done this someone from LUNARC will contact you with your password.
 
 ### 3) Setup 2FA
 
@@ -48,7 +48,7 @@ LUNARC also uses two-factor authentication using Pocket Pass. Follow the instruc
 
 ### 4) Request a Static IP address
 
-This is important. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP adress for your port number. Communicate this IP adress at the same time so both VPN and fixed port IPs can be whitelisted.
+This is important. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP adress for your port number. **Communicate this IP adress at the same time so both VPN and fixed port IPs can be whitelisted**.
 
 ### 5) Setup the VPN on your laptop/workstation
 
