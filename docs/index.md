@@ -36,7 +36,7 @@ The first thing you need to do is make an account at [SUPR](https://supr.naiss.s
 
 ### 2) Log back in to SUPR and apply for an account at LUNARC.
 
-Left menu under accounts. Fill out the details correctly and use your mobile number. This will be needed for 2-factor authentication.
+Left menu under "Accounts". Fill out the details correctly and use your mobile number. This will be needed for 2-factor authentication.
 
 ### 3) Sign the agreement
 
