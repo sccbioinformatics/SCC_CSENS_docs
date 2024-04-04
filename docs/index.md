@@ -254,7 +254,11 @@ $ scancel <jobid>
 ```
 
 ### GPU nodes
-If your program can use GPUs then you can run on the GPU nodes. 
+If your program can use GPUs then you can run on the GPU nodes. You will need to add a patrition parameter in your SLURM script so:
+
+```shell
+#SBATCH -p sens-gpu
+```
 
 ## Reference genomes
 
