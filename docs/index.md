@@ -32,7 +32,11 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 ### 1) Make an account at SUPR
 
-The first thing you need to do is make an account at [SUPR](https://supr.naiss.se/). Make sure you provide a correct mobile phone number since your phone will be needed in the future for two-factor authentication. When you're done, contact Shamit Soneji (shamit.soneji [at] med.lu.se) stating which SCC lab you belong to. You will then be added to the list of users, after which, you will log back in to SUPR and apply for an account at LUNARC.
+The first thing you need to do is make an account at [SUPR](https://supr.naiss.se/). Make sure you provide a correct mobile phone number since your phone will be needed in the future for two-factor authentication. When you're done, contact Shamit Soneji (shamit.soneji [at] med.lu.se) stating which SCC lab you belong to. You will then be added to the list of users. Log back in to SUPR and apply for an account at LUNARC.
+
+### 2) Log back in to SUPR and apply for an account at LUNARC.
+
+Left menu under accounts. Fill out the details correctly and use your mobile number. This will be needed for 2-factor authentication.
 
 ### 2) Sign the agreement
 
