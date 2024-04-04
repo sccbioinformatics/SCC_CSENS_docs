@@ -44,7 +44,7 @@ Left menu under "Accounts". Fill out the details correctly and use your mobile n
 
 ### 4) Setup 2FA
 
-LUNARC also uses two-factor authentication using Pocket Pass. Follow the instructions **[here]**(https://lunarc-documentation.readthedocs.io/en/latest/getting_started/authenticator_howto/) to set this up. 
+LUNARC also uses two-factor authentication using Pocket Pass. Follow the instructions [here](https://lunarc-documentation.readthedocs.io/en/latest/getting_started/authenticator_howto/) to set this up. 
 
 ### 5) Request a Static IP address
 
