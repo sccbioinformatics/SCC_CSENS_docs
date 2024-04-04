@@ -22,7 +22,7 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 4) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
 
-5) **Do not duplidate files between personal and shared folder**. This is especially true for files in `backup`.
+5) **Do not duplidate files between personal and shared folders**. This is especially true for files in `backup`.
 
 6) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
 
@@ -283,7 +283,7 @@ Please be considerate to your co-workers, resources are always limited. Try to u
 
 I recommend reading [this pdf](pdfs/HowToUseSingularityOnLsens2.pdf) about how to use singularity images and especially how to use the SingSingCell image that Stefan Lang has created.  
 
-## Nextflow and NF-core
+## Nextflow and NF-core **(WORK IN PROGRESS)**
 
 Nextflow and the [NF-core modules](https://nf-co.re/) are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotatation, and reporting. After a pipline is run, you also they the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same everytime you run it ensuring results are comparable.
 
