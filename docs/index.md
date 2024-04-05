@@ -270,6 +270,8 @@ module load CUDA/12.1.1
 
 These are located `/references/AWS-iGenomes/` which have been downloaded from [here](https://ewels.github.io/AWS-iGenomes/). This folder also includes the nf-core pipelines and a few other resources which will be updated along the way.
 
+We have also copied across the `/projects/fs1/common/` folder from LSENS2 which is now located at `/scale/gr01/shared/common/` on COSMOS-SENS.
+
 ## Run jobs using the local disk
 Most jobs will create temporary files when running, so it makes sense (where possible) to use the local disk on each node to improve speed and reduce network traffic between the nodes and the storage.
 
