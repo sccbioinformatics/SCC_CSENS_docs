@@ -309,6 +309,7 @@ When nf-core piplines are run, docker images are pulled over the internet for us
 There are several commonly used piplines located at `/scale/gr01/shared/nf-core`, and to use them you need to add a few lines into a file called `.bash_profile`.
 
 1) Open the file using `gedit ~/.bash_profile`
+
 2) Add copy/paste these lines in at the end and save the file:
 
 ```
