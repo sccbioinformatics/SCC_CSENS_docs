@@ -313,7 +313,7 @@ There are several commonly used piplines located at `/references/nf-core`, and t
 
 ```
 export NXF_OFFLINE='true'
-export NXF_SINGULARITY_LIBRARYDIR=/scale/gr01/shared/nf_core/singularity_cache
+export NXF_SINGULARITY_LIBRARYDIR=/scale/gr01/shared/nf-core/singularity_cache
 export NXF_SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
 export SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
 export NXF_TEMP=$SNIC_TMP
