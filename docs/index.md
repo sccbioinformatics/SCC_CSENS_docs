@@ -350,13 +350,13 @@ and a script `NFC_RNAseq.sh` running the basic rnaseq pipline would look like th
 ```shell
 module load Java/11.0.20
 
-nextflow run  /home/ssoneji/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf \
+nextflow run  /scale/gr01/shared/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf \
 -profile singularity \
 --input samplesheet.csv \
--c /home/common/nf_core/cosmos_sens_scc.config \
+-c  /scale/gr01/shared/nf-core/cosmo_sens_grp1.config\
 --genome GRCm38 \
 --igenomes_base /references/AWS-iGenomes/ \
---outdir /scale/gr01/shared/processed/<userid>/RNAseq_project/NFC_out
+--outdir /home/<userid>/RNAseq_project/NFC_out
 
 ```
 
