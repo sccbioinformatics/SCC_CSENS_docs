@@ -327,11 +327,6 @@ When running a job, use the config file located here:
 
 `/scale/gr01/shared/nf-core/cosmo_sens_grp1.config`
 
-and load Java first before you invoke the pipeline:
-
-```
-module load Java/11.0.20
-```
 
 This file contains the project ID and automatically sets the RAM and core resources so you don't have to.
 
