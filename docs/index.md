@@ -312,6 +312,7 @@ There are several commonly used piplines located at `/references/nf-core`, and t
 2) Add copy/paste these lines in at the end and save the file:
 
 ```
+export NXF_OFFLINE='true'
 export NXF_SINGULARITY_LIBRARYDIR=/home/ssoneji/nf_core_wcache/singularity_cache
 export NXF_SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
 export SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
