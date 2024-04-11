@@ -306,7 +306,7 @@ When nf-core piplines are run, docker images are pulled over the internet for us
 
 ### Setting up to use nf-core
 
-There are several commonly used piplines located at `/references/nf-core`, and to use them you need to add a few lines into a file called `.bash_profile`.
+There are several commonly used piplines located at `/scale/gr01/shared/nf-core`, and to use them you need to add a few lines into a file called `.bash_profile`.
 
 1) Open the file using `gedit ~/.bash_profile`
 2) Add copy/paste these lines in at the end and save the file:
@@ -317,6 +317,8 @@ export NXF_SINGULARITY_LIBRARYDIR=/scale/gr01/shared/nf-core/singularity_cache
 export NXF_SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
 export SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
 export NXF_TEMP=$SNIC_TMP
+export SINGULARITY_BIND="/scale"
+export NXF_HOME=/scale/gr01/shared/nf-core/nextflow_sub/
 ```
 
 You should then logout of COSMOS-SENS and log back in so these changes take effect. These lines set the variables that tell NextFlow where the singularity images are located, and to set the tmp dir to the ones located on the nodes.
@@ -348,7 +350,7 @@ Sample3_R1.fastq.gz,Sample3_R2.fastq.gz,auto
 and a script `NFC_RNAseq.sh` running the basic rnaseq pipline would look like this:
 
 ```shell
-module load Java/11.0.20
+module load Nextflow/23.10.1
 
 nextflow run  /scale/gr01/shared/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf \
 -profile singularity \
@@ -357,7 +359,6 @@ nextflow run  /scale/gr01/shared/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf 
 --genome GRCm38 \
 --igenomes_base /references/AWS-iGenomes/ \
 --outdir /home/<userid>/RNAseq_project/NFC_out
-
 ```
 
 
