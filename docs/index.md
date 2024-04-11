@@ -358,7 +358,7 @@ nextflow run  /scale/gr01/shared/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf 
 ```
 
 
-It is launched from the directory where the fastq files are by doing:
+This script, the fastq files, and the samplesheet are all in the same folder. The pipline is launched using:
 
 `sh NFC_RNAseq.sh`
 
