@@ -368,6 +368,22 @@ This script, the fastq files, and the samplesheet are all in the same folder. Th
 
 `sh NFC_RNAseq.sh`
 
+### Cut&Run
+
+```shell
+module load Nextflow/23.10.1
+
+nextflow run /scale/gr01/shared/nf-core/nf-core-cutandrun_3.2.2/3_2_2 \
+--input samplesheet.csv \
+-profile singularity \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1.config \
+--fasta /scale/references/AWS-iGenomes/Homo_sapiens/Ensembl/GRCh37/Sequence/WholeGenomeFasta/genome.fa \
+--gtf /scale/references/AWS-iGenomes/Homo_sapiens/Ensembl/GRCh37/Annotation/Genes \
+--spikein_bowtie2 /scale/references/AWS-iGenomes/Escherichia_coli_K_12_MG1655/NCBI/2001-10-15/Sequence/Bowtie2Index \
+--spikein_fasta /scale/references/AWS-iGenomes/Escherichia_coli_K_12_MG1655/NCBI/2001-10-15/Sequence/WholeGenomeFasta/genome.fa \
+--outdir /home/<userid>/<path_to_out>/CaR_Out
+```
+
 ### Sample sheets
 The contents of the sample sheet will vary depending on which pipline you are using, so be sure to read the manual.
 
