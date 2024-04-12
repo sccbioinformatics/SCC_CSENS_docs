@@ -351,7 +351,7 @@ module load Nextflow/23.10.1
 nextflow run  /scale/gr01/shared/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf \
 -profile singularity \
 --input samplesheet.csv \
--c /scale/gr01/shared/nf-core/cosmos_sens_grp1.config\
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1.config \
 --genome GRCm38 \
 --igenomes_base /references/AWS-iGenomes/ \
 --outdir /home/<userid>/RNAseq_project/NFC_out
