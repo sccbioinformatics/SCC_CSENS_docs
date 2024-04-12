@@ -331,10 +331,10 @@ export NXF_HOME=/scale/gr01/shared/nf-core/nextflow_sub/
 You should then logout of COSMOS-SENS and log back in so these changes take effect. These lines set the environment variables that
 
 
-1) Tell NextFlow where the singularity images are located
-2) Set the temp dir to the ones located on the nodes.
+1) Tell NextFlow where the singularity images are located (`/scale/gr01/shared/nf-core/singularity_cache`)
+2) Set the temp dir to the ones located on the nodes (`$SNIC_TMP`).
 3) Binds the sigularity images to `/scale` so they can be found system wide.
-4) Sets the `home` of Nexflow to the central copy on shared. This means each user doesn't need their own.
+4) Sets the `home` of Nexflow to the central copy on shared (`/scale/gr01/shared/nf-core/nextflow_sub/`). This means each user doesn't need their own.
 
 When running a job, use the config file located here:
 
