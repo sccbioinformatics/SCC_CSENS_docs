@@ -107,7 +107,7 @@ i.e you don't need the `.lunarc.lu.se` part.
 
 ## Cut & Paste
 
-Lets get this out of the way now. Cut and paste is not allowed from COSMOS outwards. So you can't copy in COSMOS and ctrl-v to a window on your local machine. You can paste into COSMOS using the clipboard which is located on the left side of the screen. Click on the arrow to pull it out.
+Lets get this out of the way now. Cut and paste is **not** allowed from COSMOS outwards, i.e you **cannot** `ctrl-c` in COSMOS and `ctrl-v` to a window on your local machine. You *can* paste *into* COSMOS using the clipboard which is located on the left side of the screen. Click on the arrow to pull it out.
 
 The easiest way to C&P is to mount a COSMOS-SENS folder on to your local machine, and then just have a simple text file open in this window that can be open on both COSMOS and your local computer. This can then be a two-way clipboard between the two systems.
 
