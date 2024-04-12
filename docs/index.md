@@ -105,6 +105,12 @@ The process is the same when logged into LS2, the connection is made however lik
 
 i.e you don't need the `.lunarc.lu.se` part.
 
+## Cut & Paste
+
+Lets get this out of the way now. Cut and paste is not allowed from COSMOS outwards. So you can't copy in COSMOS and ctrl-v to a window on your local machine. You can paste into COSMOS using the clipboard which is located on the left side of the screen. Click on the arrow to pull it out.
+
+The easiest way to C&P is to mount a COSMOS-SENS folder on to your local machine, and then just have a simple text file open in this window that can be open on both COSMOS and your local computer. This can then be a two-way clipboard between the two systems.
+
 ## Where do I put my data?
 
 Storage is expensive, so what we have should be used efficiently. There are two main folders on COSMOS-SENS:
@@ -367,5 +373,6 @@ The contents of the sample sheet will vary depending on which pipline you are us
 
 ### Remove the work folder
 nf-core piplines will make a `work` folder if the tmp folder on the node isn't used. **Delete this folder when you are done!** It is normally huge and contains nothing of interest.
+
 
 
