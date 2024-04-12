@@ -337,7 +337,7 @@ You should then logout of COSMOS-SENS and log back in so these changes take effe
 
 3) Binds the sigularity images to `/scale` so they can be found system wide.
 
-4) Sets the `home` of Nexflow to the central copy on shared (`/scale/gr01/shared/nf-core/nextflow_sub/`). This means each user doesn't need their own.
+4) Sets the `home` of Nextflow to the central copy on shared (`/scale/gr01/shared/nf-core/nextflow_sub/`). This means each user doesn't need their own.
 
 When running a job, use the config file located here:
 
