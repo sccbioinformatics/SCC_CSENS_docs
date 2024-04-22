@@ -38,17 +38,20 @@ The first thing you need to do is make an account at [SUPR](https://supr.naiss.s
 
 Left menu under "Accounts". Fill out the details correctly and use your mobile number. This will be needed for 2-factor authentication.
 
-### 3) Sign the agreement
+### 3) Request a Static IP address
+
+**This is important, do this straight after step 2**. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP adress for your port number. **Communicate this IP adress at the same time so both VPN and fixed port IPs can be whitelisted**.
+
+
+### 4) Sign the agreement
 
 **LUNARC will send you a digital agreement that you will need sign vie Lucat**. When you have done this someone from LUNARC will contact you with your password.
 
-### 4) Setup 2FA
+### 5) Setup 2FA
 
 LUNARC also uses two-factor authentication using Pocket Pass. Follow the instructions [here](https://lunarc-documentation.readthedocs.io/en/latest/getting_started/authenticator_howto/) to set this up. 
 
-### 5) Request a Static IP address
 
-This is important. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP adress for your port number. **Communicate this IP adress at the same time so both VPN and fixed port IPs can be whitelisted**.
 
 ### 6) Setup the VPN on your laptop/workstation
 
@@ -399,5 +402,111 @@ The contents of the sample sheet will vary depending on which pipline you are us
 ### Remove the work folder
 nf-core piplines will make a `work` folder if the tmp folder on the node isn't used. **Delete this folder when you are done!** It is normally huge and contains nothing of interest.
 
+## Singularity
+
+Software can be packaged into Singularity containers which provide a complete environment that can be copied over to COSMOS-SENS and used there without having to install other software on COSMOS-SENS. This means you get exactly what you need, and reduces the workload on the good people at LUNARC. *This is also a really good way of practicing reproducible research*. A project can be done using a singularity image, so if you need to go back to it in X years, you have the original software setup you had when you did it. If you upgrade a piece of software, you can make a new version of the image so the previous version still exists in the older version.
+
+In this example we will make a Sigularity image which will contain R and Seurat, which will then be modularised to be used on COSMOS-SENS to be used with a Jupyter Notebook.
+
+First up, install [install Singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) on your system. FYI, on Ubuntu `sudo apt install singularity` actually installs a **game** not the container system!
 
 
+When you have done this you can make a minimal image by using this recipe:
+
+
+```shell
+Bootstrap: debootstrap
+OSVersion: jammy
+MirrorURL: http://archive.ubuntu.com/ubuntu/
+
+%post
+  export PYTHONNOUSERSITE="true"
+  sed -i 's/main/main restricted universe/g' /etc/apt/sources.list
+  apt-get update
+  # Install R, Python, misc. utilities
+  apt-get install -y libopenblas-dev libcurl4-openssl-dev libopenmpi-dev openmpi-bin openmpi-common openmpi-doc openssh-client openssh-server
+
+  apt install -y wget build-essential git vim software-properties-common 
+
+  apt install -y curl vim git libhdf5-dev
+  apt install -y libssl-dev libxml2-dev python3-pip
+
+  apt install -y nodejs cmake
+
+  ## next is important for python tsne
+  apt install -y libatlas-base-dev
+  ## cellexalvrR
+  apt install -y pandoc
+
+  pip3 install --upgrade pip
+  pip3 install --upgrade jupyter jupyterlab ipython-autotime ipywidgets
+
+  add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+  wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+  add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+
+  apt  install -y r-cran-irkernel r-cran-irdisplay r-cran-seurat python3-ipykernel
+
+  apt clean
+
+  mkdir /workspace
+  echo "jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser" > /workspace/launch_jupyter.sh
+  chmod +x /workspace/launch_jupyter.sh
+
+%runscript
+  /workspace/launch_jupyter.sh
+
+%environment
+    export PYTHONNOUSERSITE="true"
+    export MYVAR="Hello"
+```
+
+This will take the Ubunutu "Jammy" release and install build essentials, Python, base R (4.3), and jupyter notebooks. It will also prep a file `launch_jupyter.sh` that is invoked to open a notebook when the image is used.
+
+To build the image from this recipe:
+
+`sudo singularity build --sandbox sandbox  minimal_recipe.txt`
+
+We can now shell into the image to install more programs as needed:
+
+``singularity shell --fakeroot -w sandbox/``
+
+At this point you treat it like any other Ubunutu distro. For example updating all the distro pacakages:
+
+```
+sudo apt update
+sudo apt upgrade
+```
+
+If libraries are missing you can install them via `apt` for example as you need them.
+
+After shelling in you can start R:
+
+```
+Apptainer> R
+
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+```
+
+and then install eveything you need. For example Seurat v4:
+
+```shell
+> update.packages(ask = FALSE, checkBuilt = TRUE)
+> install.packages(devtools)
+
+```
