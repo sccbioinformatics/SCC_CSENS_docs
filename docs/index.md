@@ -76,7 +76,7 @@ Login with your **LUNARC** credentials and then using using two-factor authentic
 
 Getting data to COSMOS-SENS can **only** be done via sftp via the diode (**cs-diode.lunarc.lu.se**), but this is made easier by mounting a COSMOS-SENS folder to folder on the local machine you are working on. Files can then be copied/moved to this mounted folder which will then become available on COSMOS-SENS.
 
-You will need to install `sshfs` if you haven't already. For Linux machines the `sshfs` package can be installed via your package manager, and for mac users there is [macFUSE](https://osxfuse.github.io/). Windows users will have to transfer files using WinSCP with the 2FA option or Filezilla with the interactive login option.
+You will need to install `sshfs` if you haven't already. For Linux machines the `sshfs` package can be installed via your package manager, and for Mac users there is [macFUSE](https://osxfuse.github.io/). Windows users will have to transfer files using WinSCP with the 2FA option or Filezilla with the interactive login option.
 
 To mount a folder (Linux/macOS) do the following:
 
@@ -88,6 +88,10 @@ To mount a folder (Linux/macOS) do the following:
 
 `sshfs <userID>@cs-diode.lunarc.lu.se:/<pathto>/FileTransferFolder/ ToCSENS/`
 
+**NOTE!** If you are using a Mac you will need to use the `-o` flag like so:
+
+`sshfs  -o defer_permissions <userID>@cs-diode.lunarc.lu.se:/<pathto>/FileTransferFolder/ ToCSENS/`
+
 So if your `FileTransferFolder` was made in `/home` it would look something like:
 
 `sshfs <userid>@cs-diode.lunarc.lu.se:/home/<userid>/FileTransferFolder/ ToCSENS/`
@@ -97,6 +101,10 @@ So if your `FileTransferFolder` was made in `/home` it would look something like
 5) When you are done with the connection to COSMOS-SENS, you can unmount the folder by doing
 
 `fusermount -u ToCSENS`
+
+On a Mac (will work for Linux too):
+
+`umount ToCSENS`
 
 **Just to be clear, all files in this mounted folder are located on COSMOS-SENS**. When you unmount `ToCSENS` that folder will be empty again. 
 
