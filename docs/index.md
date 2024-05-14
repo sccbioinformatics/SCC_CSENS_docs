@@ -40,7 +40,7 @@ Left menu under "Accounts". Fill out the details correctly and use your mobile n
 
 ### 3) Request a Static IP address
 
-**This is important, do this straight after step 2**. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP adress for your port number. **Communicate this IP adress at the same time so both VPN and fixed port IPs can be whitelisted**.
+**This is important, do this straight after step 2**. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP address for your port number. **Communicate this IP adress to Shamit at the same time so both VPN and fixed port IPs can be whitelisted**.
 
 
 ### 4) Sign the agreement
