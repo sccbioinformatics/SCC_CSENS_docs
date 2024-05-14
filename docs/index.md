@@ -511,7 +511,7 @@ Type 'q()' to quit R.
 
 ```
 
-and then install eveything you need. For example Seurat v4:
+and then install everything you need. For example Seurat v4:
 
 ```shell
 > update.packages(ask = FALSE, checkBuilt = TRUE)
