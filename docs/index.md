@@ -12,6 +12,9 @@ The GDPR is an EU directive that protects information and data of individuals, t
 
 Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform. This document is mostly for the benefit of users at the Lund Stem Cell Center who are pladed in Group 1 (gr01).
 
+**The SCC storage is not for general purpose file storage.** It is for data being actively worked on. for general storage needs you need contact LDC for other options.
+
+
 ## Some general ground rules
 
 1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data and scripts into `/backup`, and make sure data is compressed.
