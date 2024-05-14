@@ -45,7 +45,7 @@ Left menu under "Accounts". Fill out the details correctly and use your mobile n
 
 ### 4) Sign the agreement
 
-**LUNARC will send you a digital agreement that you will need sign vie Lucat**. When both you and Shamit have done this, someone from LUNARC will contact you with details on how you create your password.
+**LUNARC will send you a digital agreement that you will need sign via Lucat**. When both you and Shamit have done this, someone from LUNARC will contact you with details on how you create your password.
 
 ### 5) Setup 2FA
 
