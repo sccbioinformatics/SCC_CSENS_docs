@@ -10,10 +10,9 @@ The GDPR is an EU directive that protects information and data of individuals, t
 
 ## Who is COSMOS-SENS for?
 
-Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform. This document is mostly for the benefit of users at the Lund Stem Cell Center who are pladed in Group 1 (gr01).
+Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform. This document is mostly for the benefit of users at the Lund Stem Cell Center who are placed in Group 1 (gr01).
 
 **The SCC storage is not for general purpose file storage.** It is for data being actively worked on. for general storage needs you need contact LDC for other options.
-
 
 ## Some general ground rules
 
@@ -58,7 +57,7 @@ LUNARC also uses two-factor authentication using Pocket Pass. Follow the instruc
 
 ### 6) Setup the VPN on your laptop/workstation
 
-Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=kb_article_en&sys_id=39c1256187ed8190e42687fc8bbb3578) (**will require lucat login**) and setup the VPN on your device.
+Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=kb_article_en&sys_id=39c1256187ed8190e42687fc8bbb3578) and setup the VPN on your device. **When you click on the link it will look like a blank page. You need to login using Lucat (top-right) to see all connection options**.
 
 
 ## WARNING!
