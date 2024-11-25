@@ -226,14 +226,14 @@ When you login into COSMOS-SENS you will be located on the front-end (FE). **Thi
 Any jobs such as making and mapping fastq files should be sent to the blades, and for this, LUNARC uses the SLURM job submission system. See below and [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_basic_job/) for basic guidelines on how to submit a job.
 
 ### Project code
-For those registered to our COSMOS-SENS project, the code needed to submit the job is **csens2024-3-4** and you need to specify in the preamble of you script. Lets say you want to map reads using bowtie, an example header for a job `Run_bowtie.sh` could look like this:
+For those registered to our COSMOS-SENS project, the code needed to submit the job is **csens2024-3-2** and you need to specify in the preamble of you script. Lets say you want to map reads using bowtie, an example header for a job `Run_bowtie.sh` could look like this:
 
 ```shell
 #! /bin/bash
 #SBATCH -n 5
 #SBATCH -N 1
 #SBATCH -t 24:00:00
-#SBATCH -A lsens2018-3-3
+#SBATCH -A csens2024-3-2
 #SBATCH -J BT2
 #SBATCH -o BT2.%j.out
 #SBATCH -e BT2SingSing.%j.err
@@ -314,7 +314,9 @@ Please be considerate to your co-workers, resources are always limited. Try to u
 
 I recommend reading [this pdf](pdfs/HowToUseSingularityOnLsens2.pdf) about how to use singularity images and especially how to use the SingSingCell image that Stefan Lang has created.  
 
-## Nextflow and NF-core **(WORK IN PROGRESS)**
+## Nextflow and NF-core
+
+**Note: this document has been updated to show how to run pipelines using Nexflow v24**. The previous document gave instructions for v23.
 
 Nextflow and the [NF-core modules](https://nf-co.re/) are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotatation, and reporting. After a pipline is run, you also they the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same everytime you run it ensuring results are comparable.
 
@@ -330,15 +332,15 @@ There are several commonly used piplines located at `/scale/gr01/shared/nf-core`
 
 ```
 export NXF_OFFLINE='true'
+export SINGULARITY_TMPDIR=$SNIC_TMP
 export NXF_SINGULARITY_LIBRARYDIR=/scale/gr01/shared/nf-core/singularity_cache
 export NXF_SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
 export SINGULARITY_CACHEDIR="$NXF_SINGULARITY_LIBRARYDIR"
-export NXF_TEMP=$SNIC_TMP
-export SINGULARITY_BIND="/scale"
 export NXF_HOME=/scale/gr01/shared/nf-core/nextflow_sub/
+export NXF_SINGULARITY_HOME_MOUNT=true
 ```
 
-You should then logout of COSMOS-SENS and log back in so these changes take effect. These lines set the environment variables that
+**You should then logout of COSMOS-SENS and log back in so these changes take effect**. These lines set the environment variables that
 
 
 1) Tells Nextflow where the singularity images are located (`/scale/gr01/shared/nf-core/singularity_cache`)
@@ -351,7 +353,7 @@ You should then logout of COSMOS-SENS and log back in so these changes take effe
 
 When running a job, use the config file located here:
 
-`/scale/gr01/shared/nf-core/cosmo_sens_grp1.config`
+`/scale/gr01/shared/nf-core/cosmo_sens_grp1_NFv24.config`
 
 
 This file contains the project ID and automatically sets the RAM and core resources so you don't have to.
@@ -371,12 +373,12 @@ Sample3_R1.fastq.gz,Sample3_R2.fastq.gz,auto
 and a script `NFC_RNAseq.sh` running the basic rnaseq pipline would look like this:
 
 ```shell
-module load Nextflow/23.10.1
+module load Nextflow/24.10.0
 
-nextflow run  /scale/gr01/shared/nf_core/nf-core-rnaseq-3.14.0/workflow/main.nf \
+nextflow run /scale/gr01/shared/nf-core/nf-core-rnaseq_3.17.0/3_17_0/main.nf \
 -profile singularity \
 --input samplesheet.csv \
--c /scale/gr01/shared/nf-core/cosmos_sens_grp1.config \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24.config \
 --genome GRCm38 \
 --igenomes_base /references/AWS-iGenomes/ \
 --outdir /home/<userid>/RNAseq_project/NFC_out
@@ -390,12 +392,12 @@ This script, the fastq files, and the samplesheet are all in the same folder. Th
 ### Cut&Run
 
 ```shell
-module load Nextflow/23.10.1
+module load Nextflow/24.10.0
 
-nextflow run /scale/gr01/shared/nf-core/nf-core-cutandrun_3.2.2/3_2_2 \
+nextflow run /scale/gr01/shared/nf-core/nf-core-cutandrun_3.2.2/3_2_2/main.nf \
 --input samplesheet.csv \
 -profile singularity \
--c /scale/gr01/shared/nf-core/cosmos_sens_grp1.config \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24.config \
 --fasta /scale/references/AWS-iGenomes/Homo_sapiens/Ensembl/GRCh37/Sequence/WholeGenomeFasta/genome.fa \
 --gtf /scale/references/AWS-iGenomes/Homo_sapiens/Ensembl/GRCh37/Annotation/Genes \
 --spikein_bowtie2 /scale/references/AWS-iGenomes/Escherichia_coli_K_12_MG1655/NCBI/2001-10-15/Sequence/Bowtie2Index \
@@ -407,9 +409,76 @@ nextflow run /scale/gr01/shared/nf-core/nf-core-cutandrun_3.2.2/3_2_2 \
 The contents of the sample sheet will vary depending on which pipline you are using, so be sure to read the manual.
 
 ### Remove the work folder
-nf-core piplines will make a `work` folder if the tmp folder on the node isn't used. **Delete this folder when you are done!** It is normally huge and contains nothing of interest.
+nf-core pipelines will make a `work` folder if the tmp folder on the node isn't used. **Delete this folder when you are done!** It is normally huge and contains nothing of interest.
 
-## Singularity
+### Available pipelines
+The available pipelines are located in `/scale/gr01/shared/nf-core`. If the one you need is missing, contact Shamit for it to be downloaded.
+
+### If you have *many* small fastq files
+Some well-based methods generate *thousands* of small fastq files which do not play nice with the queuing system on CSENS when using an nf-core pipeline. The jobs are fired off to the nodes so quickly that SLURM cannot keep up, but importantly, setting up the task actually takes longer than the compute subsequently done.
+
+If you have this situation, you need to run the pipeline **locally** on a single node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. Do this this you have to used a different config file, namely `cosmos_sens_grp1_NFv24_local.config`. So, to use RNAseq as an example you would submit a job like so:
+
+
+```shell
+#! /bin/bash
+#SBATCH -n 48
+#SBATCH -N 1
+#SBATCH -t 24:00:00
+#SBATCH -A csens2024-3-2
+#SBATCH -J nfc_rnaseq
+#SBATCH -o nfc_rnaseq.%j.out
+#SBATCH -e nfc_rnaseq.%j.err
+
+module load Nextflow/24.10.0
+
+nextflow run /scale/gr01/shared/nf-core/nf-core-rnaseq_3.17.0/3_17_0/main.nf \
+-profile singularity \
+--input samplesheet.csv \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24_local.config \
+--genome GRCm38 \
+--igenomes_base /references/AWS-iGenomes/ \
+--outdir /home/<userid>/RNAseq_project/NFC_out
+
+```
+
+This will run the entire pipeline on a single node.
+
+## IGV
+Integrative Genomics Viewer (IGV) is a nice toll to visualise BAM/bigwig files. This is available to use on COSMOS-SENS, but it should not be used on the front-end as it will slow the system down for others. Instead you should login to a node interactively and use it from there.
+
+Open a terminal and do the following. It will take a moment to find a free node. `-t 60` means a 60 min session
+
+```shell
+interactive -N 1 --ntasks-per-node=4 -t 60
+```
+
+When you have logged into a node, your prompt will change to something like:
+
+```
+<userid>@snXX
+```
+where snXX will denote which node you have logged into.
+
+Load the module:
+```shell
+module load IGV/2.18.4-Java-17
+```
+You will see this:
+
+```
+WARNING!! Not suitable to be exectuted on COSMOS-SENS front-ends.
+```
+You can ignore this. You are logged into a node because you were smart enough to read these instructions first. Well done you.
+
+Then invoke IGV:
+```shell
+./igv.sh
+```
+
+A normal IGV session will open which you use as normal.
+
+## Apptainer (Singularity) containers
 
 Software can be packaged into Singularity containers which provide a complete environment that can be copied over to COSMOS-SENS and used there without having to install other software on COSMOS-SENS. This means you get exactly what you need, and reduces the workload on the good people at LUNARC. *This is also a really good way of practicing reproducible research*. A project can be done using a singularity image, so if you need to go back to it in X years, you have the original software setup you had when you did it. If you upgrade a piece of software, you can make a new version of the image so the previous version still exists in the older version.
 
