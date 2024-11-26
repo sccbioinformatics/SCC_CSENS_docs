@@ -473,7 +473,7 @@ WARNING!! Not suitable to be exectuted on COSMOS-SENS front-ends.
 
 Then invoke IGV:
 ```shell
-./igv.sh
+igv.sh
 ```
 
 A normal IGV session will open which you use as normal.
