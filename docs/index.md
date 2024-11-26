@@ -217,7 +217,7 @@ $ module purge
 ```
 
 ## Installing software
-This is done by LUNARC and they have aksed that all software request go through us. If you need something installed please email Shamit with a URL to what is needed. You can also transfer software across using singularity images (see below).
+This is done by LUNARC and they have aksed that all software request go through us. If you need something installed please email Shamit with a URL to what is needed. You can also transfer software across using Apptainer/Singularity images (see below).
 
 ## Running jobs
 When you login into COSMOS-SENS you will be located on the front-end (FE). **This is not a place to run long computations**. The FE is for small interactive jobs, and many people work here. Long memory and processor intensive jobs should be sent to a compute node.
@@ -469,7 +469,7 @@ You will see this:
 ```
 WARNING!! Not suitable to be exectuted on COSMOS-SENS front-ends.
 ```
-You can ignore this. You are logged into a node because you were smart enough to read these instructions first. Well done you.
+**You can ignore this**. You are logged into a node because you were smart enough to read these instructions first. Well done you.
 
 Then invoke IGV:
 ```shell
@@ -480,109 +480,95 @@ A normal IGV session will open which you use as normal.
 
 ## Apptainer (Singularity) containers
 
-Software can be packaged into Singularity containers which provide a complete environment that can be copied over to COSMOS-SENS and used there without having to install other software on COSMOS-SENS. This means you get exactly what you need, and reduces the workload on the good people at LUNARC. *This is also a really good way of practicing reproducible research*. A project can be done using a singularity image, so if you need to go back to it in X years, you have the original software setup you had when you did it. If you upgrade a piece of software, you can make a new version of the image so the previous version still exists in the older version.
+Software can be packaged into Apptainer containers that provide a complete analysis environment that can be copied over to COSMOS-SENS and be used there. This means you get exactly what you need, and also reduces the workload on the good people at LUNARC. *This is also an excellent way of practicing reproducible research*. A project can be done using an immutable Apptainer image, so if you need to go back to the project in *X* years time, you have the original software setup you had when you first did it. If you upgrade a piece of software in your image, you can make a new version of it so the previous version still exists in the original state.
 
-In this example we will make a Sigularity image which will contain R and Seurat, which will then be modularised to be used on COSMOS-SENS to be used with a Jupyter Notebook.
+It's easier to make an image on a Linux system if you are going to use it on COSMOS-SENS. If you use a Mac, your best bet is to use open COSMOS to make the image which you can copy to COSMOS-SENS.
 
-First up, install [install Singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) on your system. FYI, on Ubuntu `sudo apt install singularity` actually installs a **game** not the container system!
+We have a tutorial which Stefan Lang has written showing how to make images on COSMOS that you can read [here](https://singularity-tutorial.readthedocs.io/). If you are making an image **on your own Linux machine**, an example is given below.
 
 
-When you have done this you can make a minimal image by using this recipe:
+### Minimal example (taken from Stefan's tutorial).
 
+This is an Apptainer definition file for creating a container based on Alpine Linux with Python, JupyterLab, R, and R-Jupyter integration. We use Alpine Linux for this because it produces slim images that take up less space.
+
+
+Put the following into a file called `Apptainer_example.def`:
 
 ```shell
-Bootstrap: debootstrap
-OSVersion: jammy
-MirrorURL: http://archive.ubuntu.com/ubuntu/
+Bootstrap: docker
+From: alpine:latest  # Use the latest Alpine Linux image as the base
 
 %post
-  export PYTHONNOUSERSITE="true"
-  sed -i 's/main/main restricted universe/g' /etc/apt/sources.list
-  apt-get update
-  # Install R, Python, misc. utilities
-  apt-get install -y libopenblas-dev libcurl4-openssl-dev libopenmpi-dev openmpi-bin openmpi-common openmpi-doc openssh-client openssh-server
+    # Update the package index and install essential packages
+    apk update
 
-  apt install -y wget build-essential git vim software-properties-common 
+    # Install build tools and libraries required for Python and R
+    # You must not have comments after the '\' in the following lines!
+    apk add --no-cache bash \
+        build-base \
+        zeromq-dev \
+        libffi-dev \
+        musl-dev \
+        openblas-dev \
+        R \
+        R-dev \
+        R-doc \
+        python3 \
+        py3-pip \
+        python3-dev \
+        py3-setuptools \
+        py3-wheel 
 
-  apt install -y curl vim git libhdf5-dev
-  apt install -y libssl-dev libxml2-dev python3-pip
+    # Allow pip to modify system-wide packages (ChatGPT forgets that ALWAYS)
+    export PIP_BREAK_SYSTEM_PACKAGES=1
 
-  apt install -y nodejs cmake
+    # Install JupyterLab using pip
+    pip3 install --no-cache-dir jupyterlab
 
-  ## next is important for python tsne
-  apt install -y libatlas-base-dev
-  ## cellexalvrR
-  apt install -y pandoc
+    # Install R packages for Jupyter integration
+    R -e "install.packages(c('IRkernel', 'IRdisplay'), repos='https://cloud.r-project.org/')"
 
-  pip3 install --upgrade pip
-  pip3 install --upgrade jupyter jupyterlab ipython-autotime ipywidgets
-
-  add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-  wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-  add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-
-  apt  install -y r-cran-irkernel r-cran-irdisplay r-cran-seurat python3-ipykernel
-
-  apt clean
-
-  mkdir /workspace
-  echo "jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser" > /workspace/launch_jupyter.sh
-  chmod +x /workspace/launch_jupyter.sh
-
-%runscript
-  /workspace/launch_jupyter.sh
+    # Set up IRkernel to make R available as a Jupyter kernel
+    R -e "IRkernel::installspec(user = FALSE)"
 
 %environment
-    export PYTHONNOUSERSITE="true"
-    export MYVAR="Hello"
+    # Ensure /usr/local/bin is in the PATH so JupyterLab can be found
+    export PATH="/usr/local/bin:$PATH"
+    # if you want to install more python packages in the sandbox:
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+%runscript
+    # By default, run JupyterLab when the container starts
+    jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
 ```
 
-This will take the Ubunutu "Jammy" release and install build essentials, Python, base R (4.3), and jupyter notebooks. It will also prep a file `launch_jupyter.sh` that is invoked to open a notebook when the image is used.
-
-To build the image from this recipe:
-
-`sudo singularity build --sandbox sandbox  minimal_recipe.txt`
-
-We can now shell into the image to install more programs as needed:
-
-``singularity shell --fakeroot -w sandbox/``
-
-At this point you treat it like any other Ubunutu distro. For example updating all the distro pacakages:
-
-```
-sudo apt update
-sudo apt upgrade
-```
-
-If libraries are missing you can install them via `apt` for example as you need them.
-
-After shelling in you can start R:
-
-```
-Apptainer> R
-
-R version 4.1.2 (2021-11-01) -- "Bird Hippie"
-Copyright (C) 2021 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
-
-R is free software and comes with ABSOLUTELY NO WARRANTY.
-You are welcome to redistribute it under certain conditions.
-Type 'license()' or 'licence()' for distribution details.
-
-R is a collaborative project with many contributors.
-Type 'contributors()' for more information and
-'citation()' on how to cite R or R packages in publications.
-
-Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for an HTML browser interface to help.
-Type 'q()' to quit R.
-
-```
-
-and then install everything you need. For example Seurat v4:
+To build a sandbox for manual modification, run this command:
 
 ```shell
-> update.packages(ask = FALSE, checkBuilt = TRUE)
-> install.packages(devtools)
-
+apptainer build --sandbox Apptainer_example Apptainer_example.def
 ```
+
+Shell into the sandbox:
+
+```shell
+apptainer shell --writable Apptainer_example
+```
+From here you can now install anything else you might need using Alpine's `apk add --no-cache` command. After you have installed everything, including the jupyter lab server, you can test it with:
+
+```shell
+apptainer run Apptainer_example
+```
+
+If you're happy, you can then go ahead and build the image:
+
+```shell
+apptainer build Apptainer_example.sif Apptainer_example
+```
+
+The image can now be copied to COSMOS-SENS and used there using:
+
+```shell
+apptainer run Apptainer_example.sif
+```
+
+Again, **if you are making an image on COSMOS** you need to read [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/).
