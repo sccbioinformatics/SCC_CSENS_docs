@@ -318,7 +318,7 @@ I recommend reading [this pdf](pdfs/HowToUseSingularityOnLsens2.pdf) about how t
 
 **Note: this document has been updated to show how to run pipelines using Nexflow v24**. The previous document gave instructions for v23.
 
-Nextflow and the [NF-core modules](https://nf-co.re/) are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotatation, and reporting. After a pipline is run, you also they the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same everytime you run it ensuring results are comparable.
+Nextflow and the [NF-core modules](https://nf-co.re/) are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotatation, and reporting. After a pipline is run, you also get the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same everytime you run it ensuring results are comparable.
 
 When nf-core piplines are run, docker images are pulled over the internet for use, but as COSMOS-SENS is a secure server with no internt connection, pipelines have to be downloaded and then transfered to COSMOS-SENS. In this case we are also downloading the required singularity images. If you require a pipeline that isn't there, please contact Shamit to have it downloaded and installed. It is far better we have them in one place for all to use, rather than duplicating them all over the system.
 
@@ -417,7 +417,7 @@ The available pipelines are located in `/scale/gr01/shared/nf-core`. If the one 
 ### If you have *many* small fastq files
 Some well-based methods generate *thousands* of small fastq files which do not play nice with the queuing system on CSENS when using an nf-core pipeline. The jobs are fired off to the nodes so quickly that SLURM cannot keep up, but importantly, setting up the task actually takes longer than the compute subsequently done.
 
-If you have this situation, you need to run the pipeline **locally** on a single node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. Do this this you have to used a different config file, namely `cosmos_sens_grp1_NFv24_local.config`. So, to use RNAseq as an example you would submit a job like so:
+If you are in this situation you need to run the pipeline **locally** on a **single** node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. Do this this you have to used a different config file, namely `cosmos_sens_grp1_NFv24_local.config`. So, to use RNAseq as an example you would submit a job like so:
 
 
 ```shell
@@ -445,7 +445,7 @@ nextflow run /scale/gr01/shared/nf-core/nf-core-rnaseq_3.17.0/3_17_0/main.nf \
 This will run the entire pipeline on a single node.
 
 ## IGV
-Integrative Genomics Viewer (IGV) is a nice toll to visualise BAM/bigwig files. This is available to use on COSMOS-SENS, but it should not be used on the front-end as it will slow the system down for others. Instead you should login to a node interactively and use it from there.
+Integrative Genomics Viewer (IGV) is a nice tool to visualise BAM/bigwig files. This is available to use on COSMOS-SENS, but it should not be used on the front-end as it will slow the system down for others. Instead you should login to a node interactively and use it from there.
 
 Open a terminal and do the following. It will take a moment to find a free node. `-t 60` means a 60 min session
 
