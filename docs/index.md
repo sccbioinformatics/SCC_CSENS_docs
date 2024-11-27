@@ -365,9 +365,9 @@ A sample sheet (`samplesheet.csv`) would look something like:
 
 ```shell
 sample,fastq_1,fastq_2,strandedness
-Sample1_R1.fastq.gz,Sample1_R2.fastq.gz,auto
-Sample2_R1.fastq.gz,Sample2_R2.fastq.gz,auto
-Sample3_R1.fastq.gz,Sample3_R2.fastq.gz,auto
+Sample1,Sample1_R1.fastq.gz,Sample1_R2.fastq.gz,auto
+Sample2,Sample2_R1.fastq.gz,Sample2_R2.fastq.gz,auto
+Sample3,Sample3_R1.fastq.gz,Sample3_R2.fastq.gz,auto
 ```
 
 and a script `NFC_RNAseq.sh` running the basic rnaseq pipline would look like this:
@@ -380,7 +380,7 @@ nextflow run /scale/gr01/shared/nf-core/nf-core-rnaseq_3.17.0/3_17_0/main.nf \
 --input samplesheet.csv \
 -c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24.config \
 --genome GRCm38 \
---igenomes_base /references/AWS-iGenomes/ \
+--igenomes_base  /scale/references/AWS-iGenomes/ \
 --outdir /home/<userid>/RNAseq_project/NFC_out
 ```
 
