@@ -17,9 +17,9 @@ Before you request an account, you should be comfortable using a UNIX based high
 ## Nodes
 COSMOS-SENS has a mix of nodes yuou can use. They are:
 
-1) **32 x standard nodes**. 2 x AMD, 48 cores, 256GB RAM, 2TB temporary directory given by $SNIC_TMP or $TMPDIR.
+1) **32 x standard nodes**. 2 x AMD, 48 cores, 256GB RAM, 2TB temporary directory given by `$SNIC_TMP` or `$TMPDIR`.
 
-2) **9 x HiRAM nodes**. 2 x AMD, 48 cores, **2TB** RAM, 2TB temporary directory given by $SNIC_TMP or $TMPDIR.
+2) **9 x HiRAM nodes**. 2 x AMD, 48 cores, **2TB** RAM, 2TB temporary directory given by `$SNIC_TMP` or `$TMPDIR`.
 
 If you want to send a job to these nodes you need to add `#SBATCH -p sens-xl` to the preamble of your sbatch script (explained below). `-p` specifies which partition the job is sent to.
 
