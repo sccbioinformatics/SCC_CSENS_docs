@@ -24,6 +24,7 @@ COSMOS-SENS has a mix of nodes yuou can use. They are:
 If you want to send a job to these nodes you need to add `#SBATCH -p sens-xl` to the preamble of your sbatch script (explained below). `-p` specifies which partition the job is sent to.
 
 3) **3 x GPU nodes** (NVIDIA A40), 2 x 24 cores.  **2TB** RAM
+
 To send jobs here, use `#SBATCH -p sens-gpu`.
 
 By default jobs are sent to the standard nodes, so `-p` does not need to be specified. Make sure your jobs are suitable for the `xl` and `gpu` nodes if you send them there.
