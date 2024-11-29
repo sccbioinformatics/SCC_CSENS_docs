@@ -14,6 +14,20 @@ Before you request an account, you should be comfortable using a UNIX based high
 
 **The SCC storage is not for general purpose file storage.** It is for data being actively worked on. for general storage needs you need contact LDC for other options.
 
+## Nodes
+COSMOS-SENS has a mix of nodes yuou can use. They are:
+
+1) **32 x standard nodes**. 2 x AMD, 48 cores, 256GB RAM, 2TB temporary directory given by $SNIC_TMP or $TMPDIR.
+
+2) **9 x HiRAM nodes**. 2 x AMD, 48 cores, **2TB** RAM, 2TB temporary directory given by $SNIC_TMP or $TMPDIR.
+
+If you want to send a job to these nodes you need to add `#SBATCH -p sens-xl` to the preamble of your sbatch script (explained below). `-p` specifies which partition the job is sent to.
+
+3) **3 x GPU nodes** (NVIDIA A40), 2 x 24 cores.  **2TB** RAM
+To send jobs here, use `#SBATCH -p sens-gpu`.
+
+By default jobs are sent to the standard nodes, so `-p` does not need to be specified. Make sure your jobs are suitable for the `xl` and `gpu` nodes if you send them there.
+
 ## Some general ground rules
 
 1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data and scripts into `/backup`, and make sure data is compressed.
