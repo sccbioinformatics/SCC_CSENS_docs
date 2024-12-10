@@ -31,7 +31,7 @@ To send jobs here, use `#SBATCH -p sens-gpu`.
 
 
 !!! note inline end
-    By default jobs are sent to the standard nodes, so `-p` does not need to be specified. Make sure your jobs actually need the `xl` and `gpu` nodes if you send them there.
+    By default jobs are sent to the standard nodes, so `-p` does not need to be specified. Make sure your jobs actually **need** the `xl` and `gpu` nodes if you send them there.
 
 ## Some general ground rules
 
