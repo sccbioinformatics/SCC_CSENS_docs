@@ -12,7 +12,9 @@ The GDPR is an EU directive that protects information and data of individuals, t
 
 Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform. This document is mostly for the benefit of users at the Lund Stem Cell Center who are placed in Group 1 (gr01).
 
-**The SCC storage is not for general purpose file storage.** It is for data being actively worked on. for general storage needs you need contact LDC for other options.
+!!! note inline end "Note"
+
+    **The SCC storage is not for general purpose file storage.** It is for data being actively worked on. for general storage needs you need contact LDC for other options.
 
 ## Nodes
 COSMOS-SENS has a mix of nodes yuou can use. They are:
@@ -75,9 +77,11 @@ LUNARC also uses two-factor authentication using Pocket Pass. Follow the instruc
 Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=kb_article_en&sys_id=39c1256187ed8190e42687fc8bbb3578) and setup the VPN on your device. **When you click on the link it will look like a blank page. You need to login using Lucat (top-right) to see all connection options**.
 
 
-## WARNING!
 
-**DO NOT SHARE YOUR PASSWORD! This volates the terms of he agreement and your account will be disabled.**
+
+
+!!! danger inline end "WARNING"
+    **DO NOT SHARE YOUR PASSWORD! This volates the terms of he agreement and your account will be disabled.**
 
 ## Connecting to COSMOS-SENS
 
@@ -129,6 +133,12 @@ The process is the same when logged into LS2, the connection is made however lik
 `sshfs <userID>@cs-diode:/<pathto>/FileTransferFolder/ ToCSENS/`
 
 i.e you don't need the `.lunarc.lu.se` part.
+
+!!! warning inline end "Be smart"
+
+    The point of having data on COSMOS-SENS is that it is protected, so be mindful about which folders you mount. Mounting `/home/user` for example would expose eveything you have in your home folder to your local machine, meaning that if someone were to try something malicious on your local computer they would also have access to everything you have on COMOS-SENS. Everything in your `/home` would also be exposed to any mistakes you make on you local machine.
+
+    It makes far more sense you mount specific folders rather than absolutely everything. Better safe than sorry.
 
 ## Cut & Paste
 
@@ -502,7 +512,7 @@ It's easier to make an image on a Linux system if you are going to use it on COS
 We have a tutorial which Stefan Lang has written showing how to make images on COSMOS that you can read [here](https://singularity-tutorial.readthedocs.io/). If you are making an image **on your own Linux machine**, an example is given below.
 
 
-### Minimal example (taken from Stefan's tutorial).
+### Minimal example (taken from [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/)).
 
 This is an Apptainer definition file for creating a container based on Alpine Linux with Python, JupyterLab, R, and R-Jupyter integration. We use Alpine Linux for this because it produces slim images that take up less space.
 

@@ -2,3 +2,8 @@ site_name: SCC COSMOS-SENS Documentation
 nav:
     - Home: index.md
 theme: readthedocs
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
