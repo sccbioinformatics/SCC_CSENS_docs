@@ -35,19 +35,21 @@ To send jobs here, use `#SBATCH -p sens-gpu`.
 
 ## Some general ground rules
 
-1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data and scripts into `/backup`, and make sure data is compressed.
+!!! warning inline end ""
 
-2) **Log out when you are done working** (not just close the browser). We have 20 Thinlinc licenses for our group, so logging out will release a license for someone else.
+    1) **Work cleanly**. We have limited disk space so it should be used wisely. Only put raw data and scripts into `/backup`, and make sure data is compressed.
 
-3) **Do not put published data into `/backup`**. When you publish your own data, move the raw data out of `/backup` to somewhere outside this folder.
+    2) **Log out when you are done working** (not just close the browser). We have 20 Thinlinc licenses for our group, so logging out will release a license for someone else.
 
-4) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
+    3) **Do not put published data into `/backup`**. When you publish your own data, move the raw data out of `/backup` to somewhere outside this folder.
 
-5) **Do not duplidate files between personal and shared folders**. This is especially true for files in `backup`.
+    4) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
 
-6) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+    5) **Do not duplidate files between personal and shared folders**. This is especially true for files in `backup`.
 
-7) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
+    6) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+
+    7) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
 
 ## Getting access to COSMOS-SENS
 
@@ -257,7 +259,11 @@ When you login into COSMOS-SENS you will be located on the front-end (FE). **Thi
 Any jobs such as making and mapping fastq files should be sent to the blades, and for this, LUNARC uses the SLURM job submission system. See below and [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_basic_job/) for basic guidelines on how to submit a job.
 
 ### Project code
-For those registered to our COSMOS-SENS project, the code needed to submit the job is **csens2024-3-2** and you need to specify in the preamble of you script. Lets say you want to map reads using bowtie, an example header for a job `Run_bowtie.sh` could look like this:
+
+!!! tip inline end ""
+    For those registered to our COSMOS-SENS project, the code needed to submit the job is **csens2024-3-2** and you need to specify in the preamble of you script. 
+    
+Lets say you want to map reads using bowtie, an example header for a job `Run_bowtie.sh` could look like this:
 
 ```shell
 #! /bin/bash
