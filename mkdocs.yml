@@ -5,5 +5,5 @@ theme: readthedocs
 
 markdown_extensions:
   - admonition
-  - pymdownx.details
-  - pymdownx.superfences
+#  - pymdownx.details
+#  - pymdownx.superfences
