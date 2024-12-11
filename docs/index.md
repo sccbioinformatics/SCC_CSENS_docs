@@ -45,7 +45,7 @@ To send jobs here, use `#SBATCH -p sens-gpu`.
 
     4) **Delete any intermediate files you do not need**. SAM files are a good example of this when BAMs have also been made.
 
-    5) **Do not duplidate files between personal and shared folders**. This is especially true for files in `backup`.
+    5) **Do not duplicate files between personal and shared folders**. This is especially true for files in `backup`.
 
     6) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
 
