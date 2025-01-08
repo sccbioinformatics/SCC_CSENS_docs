@@ -17,7 +17,7 @@ Before you request an account, you should be comfortable using a UNIX based high
     **The SCC storage is not for general purpose file storage.** It is for data being actively worked on. for general storage needs you need contact LDC for other options.
 
 ## Nodes
-COSMOS-SENS has a mix of nodes yuou can use. They are:
+COSMOS-SENS has a mix of nodes you can use. They are:
 
 1) **32 x standard nodes**. 2 x AMD, 48 cores, 256GB RAM, 2TB temporary directory given by `$SNIC_TMP` or `$TMPDIR`.
 
