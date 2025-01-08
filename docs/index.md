@@ -454,7 +454,7 @@ The available pipelines are located in `/scale/gr01/shared/nf-core`. If the one 
 ### If you have *many* small fastq files
 Some well-based methods generate *thousands* of small fastq files which do not play nice with the queuing system on CSENS when using an nf-core pipeline. The jobs are fired-off to the nodes so quickly that SLURM cannot keep up, but importantly, setting up the task actually takes longer than the compute subsequently done.
 
-If you are in this situation you need to run the pipeline **locally** on a **single** node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. Do this this you have to used a different config file, namely `cosmos_sens_grp1_NFv24_local.config`. So, to use RNAseq as an example you would submit a job like so:
+If you are in this situation, you need to run the pipeline **locally** on a **single** node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. Do this this you have to used a different config file, namely `cosmos_sens_grp1_NFv24_local.config`. So, to use RNAseq as an example you would submit a job like so:
 
 
 ```shell
