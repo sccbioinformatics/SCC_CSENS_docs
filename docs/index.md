@@ -334,8 +334,8 @@ The slurm system is set up to give you a temporary folder on the nodes for each 
 STAR ...\\
 --readFilesIn /somewhere/clusterPipeline/merged_cluster/*.gz \\
 ... <rest of STAR command>\\
---outFileNamePrefix $SNIC_TMP/out/MyAnanlysis_
-cp $SNIC_TMP/out/MyAnanlysis_* /processed/<userid>/pathtofinaldestination/
+--outFileNamePrefix $SNIC_TMP/out/MyAnalysis_
+cp $SNIC_TMP/out/MyAnalysis_* /scale/gr01/<userid>/pathtofinaldestination/
 ```
 
 So in this case, the output is directed to the **local** storage at `$SNIC_TMP/out/MyAnanlysis_`, and once the mapping is complete the results are copied to where you want you need them.
