@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>SCC COSMOS-SENS Documentation</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> SCC COSMOS-SENS Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-is-cosmos-sens">What is COSMOS-SENS?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#who-is-cosmos-sens-for">Who is COSMOS-SENS for?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#nodes">Nodes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#some-general-ground-rules">Some general ground rules</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getting-access-to-cosmos-sens">Getting access to COSMOS-SENS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-make-an-account-at-supr">1) Make an account at SUPR</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-log-back-in-to-supr-and-apply-for-an-account-at-lunarc">2) Log back in to SUPR and apply for an account at LUNARC.</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-request-a-static-ip-address">3) Request a Static IP address</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-sign-the-agreement">4) Sign the agreement</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5-setup-2fa">5) Setup 2FA</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6-setup-the-vpn-on-your-laptopworkstation">6) Setup the VPN on your laptop/workstation</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#connecting-to-cosmos-sens">Connecting to COSMOS-SENS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getting-data-to-cosmos-sens">Getting data to COSMOS-SENS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#getting-data-to-cosmos-sens-from-lsens2">Getting data to COSMOS-SENS from LSENS2</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cut-paste">Cut &amp; Paste</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#where-do-i-put-my-data">Where do I put my data?</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#homeuseridbackup">/home/(userid)/backup</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#homeuserid">/home/(userid)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#installing-software">Installing software</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#running-jobs">Running jobs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#slurm">SLURM</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#project-code">Project code</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gpu-nodes">GPU nodes</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reference-genomes">Reference genomes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#run-jobs-using-the-local-disk">Run jobs using the local disk</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#be-nice-to-your-mates">Be nice to your mates</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reproducible-research">Reproducible research</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#nextflow-and-nf-core">Nextflow and NF-core</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#setting-up-to-use-nf-core">Setting up to use nf-core</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#an-example-using-rnaseq">An example using RNAseq</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cutrun">Cut&amp;Run</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sample-sheets">Sample sheets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#remove-the-work-folder">Remove the work folder</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#available-pipelines">Available pipelines</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#if-you-have-many-small-fastq-files">If you have many small fastq files</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#igv">IGV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#apptainer-singularity-containers">Apptainer (Singularity) containers</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#minimal-example-taken-from-stefans-tutorial">Minimal example (taken from Stefan's tutorial).</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">SCC COSMOS-SENS Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="instructions-for-bioinformaticians-at-the-lund-stem-cell-center-using-cosmos-sens-at-lunarc">Instructions for Bioinformaticians at the Lund Stem Cell Center using COSMOS-SENS at LUNARC.</h1>
+<p>In order to keep the system orderly we have set out some guidelines which everyone should follow to maintain a smoothly running platform. Please read this document <em>carefully</em> before you use the system.</p>
+<h2 id="what-is-cosmos-sens">What is COSMOS-SENS?</h2>
+<p>The GDPR is an EU directive that protects information and data of individuals, therefore sequence data from living subjects has to be kept secure under these rules. COSMOS-SENS is a isolated HPC platform housed at LUNARC where we handle and analyse sequence data under GDPR rules. <strong><em>This means COSMOS-SENS doesn't have a connection to the internet</em></strong>, and transfering data to/from COSMOS-SENS is done via sftp (more later). In practical terms, many within the SCC use COSMOS-SENS to analyse data from other species (mouse/rat etc) as this is where our main storage is kept.</p>
+<h2 id="who-is-cosmos-sens-for">Who is COSMOS-SENS for?</h2>
+<p>Before you request an account, you should be comfortable using a UNIX based high-performance computing (HPC) platform. This document is mostly for the benefit of users at the Lund Stem Cell Center who are placed in Group 1 (gr01).</p>
+<div class="admonition note inline end">
+<p class="admonition-title">Note</p>
+<p><strong>The SCC storage is not for general purpose file storage.</strong> It is for data being actively worked on. for general storage needs you need contact LDC for other options.</p>
+</div>
+<h2 id="nodes">Nodes</h2>
+<p>COSMOS-SENS has a mix of nodes you can use. They are:</p>
+<p>1) <strong>32 x standard nodes</strong>. 2 x AMD, 48 cores, 256GB RAM, 2TB temporary directory given by <code>$SNIC_TMP</code> or <code>$TMPDIR</code>.</p>
+<p>2) <strong>9 x HiRAM nodes</strong>. 2 x AMD, 48 cores, <strong>2TB</strong> RAM, 2TB temporary directory given by <code>$SNIC_TMP</code> or <code>$TMPDIR</code>.</p>
+<p>If you want to send a job to these nodes you need to add <code>#SBATCH -p sens-xl</code> to the preamble of your sbatch script (explained below). <code>-p</code> specifies which partition the job is sent to.</p>
+<p>3) <strong>3 x GPU nodes</strong> (NVIDIA A40), 2 x 24 cores.  <strong>2TB</strong> RAM</p>
+<p>To send jobs here, use <code>#SBATCH -p sens-gpu</code>.</p>
+<div class="admonition note inline end">
+<p class="admonition-title">Note</p>
+<p>By default jobs are sent to the standard nodes, so <code>-p</code> does not need to be specified. Make sure your jobs actually <strong>need</strong> the <code>xl</code> and <code>gpu</code> nodes if you send them there.</p>
+</div>
+<h2 id="some-general-ground-rules">Some general ground rules</h2>
+<div class="admonition warning inline end">
+<p>1) <strong>Work cleanly</strong>. We have limited disk space so it should be used wisely. Only put raw data and scripts into <code>/backup</code>, and make sure data is compressed.</p>
+<p>2) <strong>Log out when you are done working</strong> (not just close the browser). We have 20 Thinlinc licenses for our group, so logging out will release a license for someone else.</p>
+<p>3) <strong>Do not put published data into <code>/backup</code></strong>. When you publish your own data, move the raw data out of <code>/backup</code> to somewhere outside this folder.</p>
+<p>4) <strong>Delete any intermediate files you do not need</strong>. SAM files are a good example of this when BAMs have also been made.</p>
+<p>5) <strong>Do not duplicate files between personal and shared folders</strong>. This is especially true for files in <code>backup</code>.</p>
+<p>6) <strong>If you need help, your first point of contact is either Shamit or Stefan</strong>. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.</p>
+<p>7) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.</p>
+</div>
+<h2 id="getting-access-to-cosmos-sens">Getting access to COSMOS-SENS</h2>
+<h3 id="1-make-an-account-at-supr">1) Make an account at SUPR</h3>
+<p>The first thing you need to do is make an account at <a href="https://supr.naiss.se/">SUPR</a>. Make sure you provide a correct mobile phone number since your phone will be needed in the future for two-factor authentication. When you're done, contact Shamit Soneji (shamit.soneji [at] med.lu.se) stating which SCC lab you belong to. You will then be added to the list of users. </p>
+<h3 id="2-log-back-in-to-supr-and-apply-for-an-account-at-lunarc">2) Log back in to SUPR and apply for an account at LUNARC.</h3>
+<p>Left menu under "Accounts". Fill out the details correctly and use your mobile number. This will be needed for 2-factor authentication.</p>
+<h3 id="3-request-a-static-ip-address">3) Request a Static IP address</h3>
+<p><strong>This is important, do this straight after step 2</strong>. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP address for your port number. <strong>Communicate this IP adress to Shamit at the same time so both VPN and fixed port IPs can be whitelisted</strong>.</p>
+<h3 id="4-sign-the-agreement">4) Sign the agreement</h3>
+<p><strong>LUNARC will send you a digital agreement that you will need sign via Lucat</strong>. When both you and Shamit have done this, someone from LUNARC will contact you with details on how you create your password.</p>
+<h3 id="5-setup-2fa">5) Setup 2FA</h3>
+<p>LUNARC also uses two-factor authentication using Pocket Pass. Follow the instructions <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/authenticator_howto/">here</a> to set this up. </p>
+<h3 id="6-setup-the-vpn-on-your-laptopworkstation">6) Setup the VPN on your laptop/workstation</h3>
+<p>Go to the LDC guide <a href="https://luservicedesk.service-now.com/support_en?id=kb_article_en&amp;sys_id=39c1256187ed8190e42687fc8bbb3578">here</a> and setup the VPN on your device. <strong>When you click on the link it will look like a blank page. You need to login using Lucat (top-right) to see all connection options</strong>.</p>
+<div class="admonition danger inline end">
+<p class="admonition-title">WARNING</p>
+<p><strong>DO NOT SHARE YOUR PASSWORD! This volates the terms of he agreement and your account will be disabled.</strong></p>
+</div>
+<h2 id="connecting-to-cosmos-sens">Connecting to COSMOS-SENS</h2>
+<div class="admonition note inline end">
+<p class="admonition-title">Note</p>
+<p><strong>Do not forget to activate your VPN before you try to connect</strong></p>
+</div>
+<p>The only way to use COSMOS-SENS is via a web browser where you point it to:</p>
+<p><a href="https://sens01.lunarc.lu.se">https://sens01.lunarc.lu.se</a></p>
+<p>Login with your <strong>LUNARC</strong> credentials and then using using two-factor authentication using Pocket Pass. You will be presented with an option as to which GNOME desktop you would like to use. Pick the one you prefer. </p>
+<h2 id="getting-data-to-cosmos-sens">Getting data to COSMOS-SENS</h2>
+<p>Getting data to COSMOS-SENS can <strong>only</strong> be done via sftp via the diode (<strong>cs-diode.lunarc.lu.se</strong>), but this is made easier by mounting a COSMOS-SENS folder to folder on the local machine you are working on. Files can then be copied/moved to this mounted folder which will then become available on COSMOS-SENS.</p>
+<p>You will need to install <code>sshfs</code> if you haven't already. For Linux machines the <code>sshfs</code> package can be installed via your package manager, and for Mac users there is <a href="https://www.fuse-t.org/">FUSE-T</a>. Windows users will have to transfer files using WinSCP with the 2FA option or Filezilla with the interactive login option.</p>
+<p>To mount a folder (Linux/macOS) do the following:</p>
+<p>1) Login to COSMOS-SENS and make a folder. For example <code>mkdir FileTransferFolder</code></p>
+<p>2) Make a folder on your <strong>local</strong> machine that you will mount to. For example <code>ToCSENS</code></p>
+<p>3) To mount the folder on COSMOS-SENS to your local machine do:</p>
+<p><code>sshfs &lt;userID&gt;@cs-diode.lunarc.lu.se:/&lt;pathto&gt;/FileTransferFolder/ ToCSENS/</code></p>
+<p>So if your <code>FileTransferFolder</code> was made in <code>/home</code> (on COSMOS) it would look something like:</p>
+<p><code>sshfs &lt;userid&gt;@cs-diode.lunarc.lu.se:/home/&lt;userid&gt;/FileTransferFolder/ ToCSENS/</code></p>
+<p>4) You can now copy/move files into <code>ToCSENS</code> on your local machine where they will be available in COSMOS-SENS. Equally, copying/moving files into <code>FileTransferFolder</code> on COSMOS-SENS will make them available on your local computer.</p>
+<p>5) When you are done with the connection to COSMOS-SENS, you can unmount the folder by doing</p>
+<p><code>fusermount -u ToCSENS</code></p>
+<p>On a Mac (will work for Linux too):</p>
+<p><code>umount ToCSENS</code></p>
+<p><strong>Just to be clear, all files in this mounted folder are located on COSMOS-SENS</strong>. When you unmount <code>ToCSENS</code> that folder will be empty again. </p>
+<h3 id="getting-data-to-cosmos-sens-from-lsens2">Getting data to COSMOS-SENS from LSENS2</h3>
+<p>The process is the same when logged into LS2, the connection is made however like so:</p>
+<p><code>sshfs &lt;userID&gt;@cs-diode:/&lt;pathto&gt;/FileTransferFolder/ ToCSENS/</code></p>
+<p>i.e you don't need the <code>.lunarc.lu.se</code> part.</p>
+<div class="admonition warning inline end">
+<p class="admonition-title">Be smart</p>
+<p>The point of having data on COSMOS-SENS is that it is protected, so be mindful about which folders you mount. Mounting <code>/home/user</code> for example would expose eveything you have in your home folder to your local machine, meaning that if someone were to try something malicious on your local computer they would also have access to everything you have on COMOS-SENS. Everything in your <code>/home</code> would also be exposed to any mistakes you make on you local machine.</p>
+<p>It makes far more sense you mount specific folders rather than absolutely everything. Better safe than sorry.</p>
+</div>
+<h2 id="cut-paste">Cut &amp; Paste</h2>
+<p>Lets get this out of the way now. Cut and paste is <strong>not</strong> allowed from COSMOS outwards, i.e you <strong>cannot</strong> <code>ctrl-c</code> in COSMOS and <code>ctrl-v</code> to a window on your local machine. You <em>can</em> paste <em>into</em> COSMOS using the clipboard which is located on the left side of the screen. Click on the arrow to pull it out.</p>
+<p>The easiest way to C&amp;P is to mount a COSMOS-SENS folder on to your local machine, and then just have a simple text file open in this window that can be open on both COSMOS and your local computer. This can then be a two-way clipboard between the two systems.</p>
+<h2 id="where-do-i-put-my-data">Where do I put my data?</h2>
+<p>Storage is expensive, so what we have should be used efficiently. There are two main folders on COSMOS-SENS:</p>
+<p>Your <code>home</code> folder will contain a folder called <code>backup</code>.</p>
+<h4 id="homeuseridbackup">/home/(userid)/backup</h4>
+<p>This is where you can put raw fastq files. <strong>This folder is limited to 400Tb and is backed up to a mirror nightly</strong>. Please make sure that fastq files are gzipped.</p>
+<h3 id="homeuserid">/home/(userid)</h3>
+<p>Intermediate files should be placed outside the backup folder. For example, the output from your pipelines that process fastq files. If you use any of the nf-core pipelines, make sure you delete the <code>work</code> folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards of they have been converted to BAM.</p>
+<div class="admonition note inline end">
+<p class="admonition-title">Note</p>
+<p><strong>The backup is only for technical issues, it is not intended for file recovery if you do something wrong</strong>. The <code>/backup</code> folders are <em>mirrored</em> to another drive, so if you delete a file in <code>/backup</code> it will also be deleted from the mirror. <strong>We do not take daily/weekly snapshots</strong>.</p>
+</div>
+<h2 id="modules">Modules</h2>
+<p>Software at LUNARC is organised into modules which are loaded when needed, usually when a job is submitted. a rundown of the module system can be seen <a href="https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/">here</a>, but lets load bowtie2 as an example:</p>
+<p>First we find the options avabilable using <code>module spider</code>:</p>
+<pre><code>$ module spider bowtie2
+
+----------------------------------------------------------------------------
+  Bowtie2:
+----------------------------------------------------------------------------
+    Description:
+      Bowtie 2 is an ultrafast and memory-efficient tool for aligning
+      sequencing reads to long reference sequences. It is particularly good
+      at aligning reads of about 50 up to 100s or 1,000s of characters, and
+      particularly good at aligning to relatively long (e.g. mammalian)
+      genomes. Bowtie 2 indexes the genome with an FM Index to keep its
+      memory footprint small: for the human genome, its memory footprint is
+      typically around 3.2 GB. Bowtie 2 supports gapped, local, and
+      paired-end alignment modes. 
+
+     Versions:
+        Bowtie2/2.2.6
+        Bowtie2/2.2.8
+        Bowtie2/2.2.9
+        Bowtie2/2.3.2
+        Bowtie2/2.3.4.1
+        Bowtie2/2.3.4.2
+        Bowtie2/2.4.4
+
+----------------------------------------------------------------------------
+  For detailed information about a specific &quot;Bowtie2&quot; module (including how to load the modules) use the module's full name.
+  For example:
+
+     $ module spider Bowtie2/2.3.4.1
+----------------------------------------------------------------------------
+</code></pre>
+<p>You can see there are several version available. To see how to load version 2.4.4 we need to run <code>`module spider</code> again:</p>
+<pre><code>$ module spider Bowtie2/2.4.4
+
+----------------------------------------------------------------------------
+  Bowtie2: Bowtie2/2.4.4
+----------------------------------------------------------------------------
+    Description:
+      Bowtie 2 is an ultrafast and memory-efficient tool for aligning
+      sequencing reads to long reference sequences. It is particularly good
+      at aligning reads of about 50 up to 100s or 1,000s of characters, and
+      particularly good at aligning to relatively long (e.g. mammalian)
+      genomes. Bowtie 2 indexes the genome with an FM Index to keep its
+      memory footprint small: for the human genome, its memory footprint is
+      typically around 3.2 GB. Bowtie 2 supports gapped, local, and
+      paired-end alignment modes. 
+
+
+    You will need to load all module(s) on any one of the lines below before the &quot;Bowtie2/2.4.4&quot; module is available to load.
+
+      GCC/10.3.0
+</code></pre>
+<p>So to load bowtie2, we also need to load the <code>GCC/10.3.0</code> module. So we can now load bowtie2 by doing:</p>
+<pre><code>$ module load GCC/10.3.0 Bowtie2/2.4.4
+</code></pre>
+<p>A short way of doing this is:</p>
+<pre><code>$ ml GCC/10.3.0 Bowtie2/2.4.4
+</code></pre>
+<p>Done. If you have too many module conflicts happening, you can wipe the slate clean with:</p>
+<pre><code>$ module purge
+</code></pre>
+<h2 id="installing-software">Installing software</h2>
+<p>This is done by LUNARC and they have aksed that all software request go through us. If you need something installed please email Shamit with a URL to what is needed. You can also transfer software across using Apptainer/Singularity images (see below).</p>
+<h2 id="running-jobs">Running jobs</h2>
+<p>When you login into COSMOS-SENS you will be located on the front-end (FE). <strong>This is not a place to run long computations</strong>. The FE is for small interactive jobs, and many people work here. Long memory and processor intensive jobs should be sent to a compute node.</p>
+<h3 id="slurm">SLURM</h3>
+<p>Any jobs such as making and mapping fastq files should be sent to the blades, and for this, LUNARC uses the SLURM job submission system. See below and <a href="https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_basic_job/">here</a> for basic guidelines on how to submit a job.</p>
+<h3 id="project-code">Project code</h3>
+<div class="admonition tip inline end">
+<p>For those registered to our COSMOS-SENS project, the code needed to submit the job is <strong>csens2024-3-2</strong> and you need to specify in the preamble of you script. </p>
+</div>
+<p>Lets say you want to map reads using bowtie, an example header for a job <code>Run_bowtie.sh</code> could look like this:</p>
+<pre><code class="language-shell">#! /bin/bash
+#SBATCH -n 5
+#SBATCH -N 1
+#SBATCH -t 24:00:00
+#SBATCH -A csens2024-3-2
+#SBATCH -J BT2
+#SBATCH -o BT2.%j.out
+#SBATCH -e BT2SingSing.%j.err
+module purge
+
+module load GCC/10.3.0 Bowtie2/2.4.4
+
+bowtie2 &lt;rest of the command here&gt;
+</code></pre>
+<p>In short <code>-n 5</code> requests 5 CPU cores, <code>-N 1</code> requests one node (do not ask for more), <code>-t 24:00:00</code> kills the job after 24 hours, <code>-A csens2024-3-2</code> specifies the project code, <code>-J BT2</code> is the name of your job, <code>-o BT2.%j.out</code> is the outfile of the job (name+job id),<code>-e BT2.%j.err</code> is where the error log goes.</p>
+<p>The script is then run using:</p>
+<pre><code>$ sbatch Run_bowtie.sh
+</code></pre>
+<p>You can see your own jobs lining up using:</p>
+<pre><code>$ sacct
+</code></pre>
+<p>All jobs using:</p>
+<pre><code>$ squeue
+</code></pre>
+<p>If you know you have screwed something up and you want to kill a job:</p>
+<pre><code>$ scancel &lt;jobid&gt;
+</code></pre>
+<h3 id="gpu-nodes">GPU nodes</h3>
+<p>If your program can use GPUs then you can run on the GPU nodes. You will need to add a partition parameter in your SLURM script so:</p>
+<pre><code class="language-shell">#SBATCH -p sens-gpu
+</code></pre>
+<p>Don't forget to load the CUDA modules if you need them:</p>
+<pre><code class="language-shell">module load CUDA/12.1.1
+</code></pre>
+<h2 id="reference-genomes">Reference genomes</h2>
+<p>These are located <code>/references/AWS-iGenomes/</code> which have been downloaded from <a href="https://ewels.github.io/AWS-iGenomes/">here</a>. This folder also includes the nf-core pipelines and a few other resources which will be updated along the way.</p>
+<p>We have also copied across the <code>/projects/fs1/common/</code> folder from LSENS2 which is now located at <code>/scale/gr01/shared/common/</code> on COSMOS-SENS.</p>
+<h2 id="run-jobs-using-the-local-disk">Run jobs using the local disk</h2>
+<p>Most jobs will create temporary files when running, so it makes sense (where possible) to use the local disk on each node to improve speed and reduce network traffic between the nodes and the storage.</p>
+<p>The slurm system is set up to give you a temporary folder on the nodes for each slurm job you start. The name of your temporary folder is stored in the <code>$SNIC_TMP</code>. This variable does not exist on the frontend. The folder on the node is private to you and will be deleted once the job is finished. So in the last step of your script you need to save your results. For example, you script might look something like:</p>
+<pre><code>STAR ...\\
+--readFilesIn /somewhere/clusterPipeline/merged_cluster/*.gz \\
+... &lt;rest of STAR command&gt;\\
+--outFileNamePrefix $SNIC_TMP/out/MyAnalysis_
+cp $SNIC_TMP/out/MyAnalysis_* /scale/gr01/&lt;userid&gt;/pathtofinaldestination/
+</code></pre>
+<p>So in this case, the output is directed to the <strong>local</strong> storage at <code>$SNIC_TMP/out/MyAnanlysis_</code>, and once the mapping is complete the results are copied to where you want you need them.</p>
+<h2 id="be-nice-to-your-mates">Be nice to your mates</h2>
+<p>Please be considerate to your co-workers, resources are always limited. Try to use only the resources as you actually need, and importantly think about what your software is able to do. Most of the available software does not benefit from more than 10 cores, and no programs we know of can use two nodes at the same time.</p>
+<h2 id="reproducible-research">Reproducible research</h2>
+<p><strong>Never update packages in the middle of a project!</strong>. There is always a chance underlying methods have changed that may cause a shift in the numbers and your results could change. The best thing you can do is "freeze" your packages but putting eveything into a singularity container named accordingly, which you can use again if needed knowing that all package version are the same. Singularity containers are also great for getting software onto COSMOS-SENS without needing LUNARC support to do an install. You can read more about <a href="https://sylabs.io/guides/3.6/user-guide/quick_start.html">Singularity images here</a>. Singularity is installed on COSMOS-SEMS and no modules are needed to load it. If you have an immediate need for a package you might think about creating your own singularity image and uploading it to COSMOS-SENS. Before you do that, check out the folder "/projects/fs1/common/singularityImages/", there might already be an image that contains the software you are looking for.</p>
+<p>I recommend reading <a href="pdfs/HowToUseSingularityOnLsens2.pdf">this pdf</a> about how to use singularity images and especially how to use the SingSingCell image that Stefan Lang has created.  </p>
+<h2 id="nextflow-and-nf-core">Nextflow and NF-core</h2>
+<p><strong>Note: this document has been updated to show how to run pipelines using Nexflow v24</strong>. The previous document gave instructions for v23.</p>
+<p>Nextflow and the <a href="https://nf-co.re/">NF-core modules</a> are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotatation, and reporting. After a pipline is run, you also get the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same everytime you run it ensuring results are comparable.</p>
+<p>When nf-core piplines are run, docker images are pulled over the internet for use, but as COSMOS-SENS is a secure server with no internt connection, pipelines have to be downloaded and then transfered to COSMOS-SENS. In this case we are also downloading the required singularity images. If you require a pipeline that isn't there, please contact Shamit to have it downloaded and installed. It is far better we have them in one place for all to use, rather than duplicating them all over the system.</p>
+<h3 id="setting-up-to-use-nf-core">Setting up to use nf-core</h3>
+<p>There are several commonly used piplines located at <code>/scale/gr01/shared/nf-core</code>, and to use them you need to add a few lines into a file called <code>.bash_profile</code>.</p>
+<p>1) Open the file using <code>gedit ~/.bash_profile</code></p>
+<p>2) Add copy/paste these lines in at the end and save the file:</p>
+<pre><code>export NXF_OFFLINE='true'
+export SINGULARITY_TMPDIR=$SNIC_TMP
+export NXF_SINGULARITY_LIBRARYDIR=/scale/gr01/shared/nf-core/singularity_cache
+export NXF_SINGULARITY_CACHEDIR=&quot;$NXF_SINGULARITY_LIBRARYDIR&quot;
+export SINGULARITY_CACHEDIR=&quot;$NXF_SINGULARITY_LIBRARYDIR&quot;
+export NXF_HOME=/scale/gr01/shared/nf-core/nextflow_sub/
+export NXF_SINGULARITY_HOME_MOUNT=true
+</code></pre>
+<p><strong>You should then logout of COSMOS-SENS and log back in so these changes take effect</strong>. These lines set the environment variables that</p>
+<p>1) Tells Nextflow where the singularity images are located (<code>/scale/gr01/shared/nf-core/singularity_cache</code>)</p>
+<p>2) Set the temp dir to the ones located on the nodes (<code>$SNIC_TMP</code>).</p>
+<p>3) Binds the sigularity images to <code>/scale</code> so they can be found system wide.</p>
+<p>4) Sets the <code>home</code> of Nextflow to the central copy on shared (<code>/scale/gr01/shared/nf-core/nextflow_sub/</code>). This means each user doesn't need their own.</p>
+<p>When running a job, use the config file located here:</p>
+<p><code>/scale/gr01/shared/nf-core/cosmo_sens_grp1_NFv24.config</code></p>
+<p>This file contains the project ID and automatically sets the RAM and core resources so you don't have to.</p>
+<h3 id="an-example-using-rnaseq">An example using RNAseq</h3>
+<p>A sample sheet (<code>samplesheet.csv</code>) would look something like:</p>
+<pre><code class="language-shell">sample,fastq_1,fastq_2,strandedness
+Sample1,Sample1_R1.fastq.gz,Sample1_R2.fastq.gz,auto
+Sample2,Sample2_R1.fastq.gz,Sample2_R2.fastq.gz,auto
+Sample3,Sample3_R1.fastq.gz,Sample3_R2.fastq.gz,auto
+</code></pre>
+<p>and a script <code>NFC_RNAseq.sh</code> running the basic rnaseq pipline would look like this:</p>
+<pre><code class="language-shell">module load Nextflow/24.10.0
+
+nextflow run /scale/gr01/shared/nf-core/nf-core-rnaseq_3.17.0/3_17_0/main.nf \
+-profile singularity \
+--input samplesheet.csv \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24.config \
+--genome GRCm38 \
+--igenomes_base  /scale/references/AWS-iGenomes/ \
+--outdir /home/&lt;userid&gt;/RNAseq_project/NFC_out
+</code></pre>
+<p>This script, the fastq files, and the samplesheet are all in the same folder. The pipline is launched using:</p>
+<p><code>sh NFC_RNAseq.sh</code></p>
+<h3 id="cutrun">Cut&amp;Run</h3>
+<pre><code class="language-shell">module load Nextflow/24.10.0
+
+nextflow run /scale/gr01/shared/nf-core/nf-core-cutandrun_3.2.2/3_2_2/main.nf \
+--input samplesheet.csv \
+-profile singularity \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24.config \
+--fasta /scale/references/AWS-iGenomes/Homo_sapiens/Ensembl/GRCh37/Sequence/WholeGenomeFasta/genome.fa \
+--gtf /scale/references/AWS-iGenomes/Homo_sapiens/Ensembl/GRCh37/Annotation/Genes \
+--spikein_bowtie2 /scale/references/AWS-iGenomes/Escherichia_coli_K_12_MG1655/NCBI/2001-10-15/Sequence/Bowtie2Index \
+--spikein_fasta /scale/references/AWS-iGenomes/Escherichia_coli_K_12_MG1655/NCBI/2001-10-15/Sequence/WholeGenomeFasta/genome.fa \
+--outdir /home/&lt;userid&gt;/&lt;path_to_out&gt;/CaR_Out
+</code></pre>
+<h3 id="sample-sheets">Sample sheets</h3>
+<p>The contents of the sample sheet will vary depending on which pipline you are using, so be sure to read the manual.</p>
+<h3 id="remove-the-work-folder">Remove the work folder</h3>
+<p>nf-core pipelines will make a <code>work</code> folder if the tmp folder on the node isn't used. <strong>Delete this folder when you are done!</strong> It is normally huge and contains nothing of interest.</p>
+<h3 id="available-pipelines">Available pipelines</h3>
+<p>The available pipelines are located in <code>/scale/gr01/shared/nf-core</code>. If the one you need is missing, contact Shamit for it to be downloaded.</p>
+<h3 id="if-you-have-many-small-fastq-files">If you have <em>many</em> small fastq files</h3>
+<p>Some well-based methods generate <em>thousands</em> of small fastq files which do not play nice with the queuing system on CSENS when using an nf-core pipeline. The jobs are fired-off to the nodes so quickly that SLURM cannot keep up, but importantly, setting up the task actually takes longer than the compute subsequently done.</p>
+<p>If you are in this situation, you need to run the pipeline <strong>locally</strong> on a <strong>single</strong> node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. Do this this you have to used a different config file, namely <code>cosmos_sens_grp1_NFv24_local.config</code>. So, to use RNAseq as an example you would submit a job like so:</p>
+<pre><code class="language-shell">#! /bin/bash
+#SBATCH -n 48
+#SBATCH -N 1
+#SBATCH -t 24:00:00
+#SBATCH -A csens2024-3-2
+#SBATCH -J nfc_rnaseq
+#SBATCH -o nfc_rnaseq.%j.out
+#SBATCH -e nfc_rnaseq.%j.err
+
+module load Nextflow/24.10.0
+
+nextflow run /scale/gr01/shared/nf-core/nf-core-rnaseq_3.17.0/3_17_0/main.nf \
+-profile singularity \
+--input samplesheet.csv \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24_local.config \
+--genome GRCm38 \
+--igenomes_base /references/AWS-iGenomes/ \
+--outdir /home/&lt;userid&gt;/RNAseq_project/NFC_out
+
+</code></pre>
+<p>This will run the entire pipeline on a single node.</p>
+<h2 id="igv">IGV</h2>
+<p>Integrative Genomics Viewer (IGV) is a nice tool to visualise BAM/bigwig files. This is available to use on COSMOS-SENS, but it should not be used on the front-end as it will slow the system down for others. Instead you should login to a node interactively and use it from there.</p>
+<p>Open a terminal and do the following. It will take a moment to find a free node. <code>-t 60</code> means a 60 min session</p>
+<pre><code class="language-shell">interactive -N 1 --ntasks-per-node=4 -t 60
+</code></pre>
+<p>When you have logged into a node, your prompt will change to something like:</p>
+<pre><code>&lt;userid&gt;@snXX
+</code></pre>
+<p>where snXX will denote which node you have logged into.</p>
+<p>Load the module:</p>
+<pre><code class="language-shell">module load IGV/2.18.4-Java-17
+</code></pre>
+<p>You will see this:</p>
+<pre><code>WARNING!! Not suitable to be exectuted on COSMOS-SENS front-ends.
+</code></pre>
+<p><strong>You can ignore this</strong>. You are logged into a node because you were smart enough to read these instructions first. Well done you.</p>
+<p>Then invoke IGV:</p>
+<pre><code class="language-shell">igv.sh
+</code></pre>
+<p>A normal IGV session will open which you use as normal.</p>
+<h2 id="apptainer-singularity-containers">Apptainer (Singularity) containers</h2>
+<p>Software can be packaged into Apptainer containers that provide a complete analysis environment that can be copied over to COSMOS-SENS and be used there. This means you get exactly what you need, and also reduces the workload on the good people at LUNARC. <em>This is also an excellent way of practicing reproducible research</em>. A project can be done using an immutable Apptainer image, so if you need to go back to the project in <em>X</em> years time, you have the original software setup you had when you first did it. If you upgrade a piece of software in your image, you can make a new version of it so the previous version still exists in the original state.</p>
+<p>It's easier to make an image on a Linux system if you are going to use it on COSMOS-SENS. If you use a Mac, your best bet is to use open COSMOS to make the image which you can copy to COSMOS-SENS.</p>
+<p>We have a tutorial which Stefan Lang has written showing how to make images on COSMOS that you can read <a href="https://singularity-tutorial.readthedocs.io/">here</a>. If you are making an image <strong>on your own Linux machine</strong>, an example is given below.</p>
+<h3 id="minimal-example-taken-from-stefans-tutorial">Minimal example (taken from <a href="https://singularity-tutorial.readthedocs.io/">Stefan's tutorial</a>).</h3>
+<p>This is an Apptainer definition file for creating a container based on Alpine Linux with Python, JupyterLab, R, and R-Jupyter integration. We use Alpine Linux for this because it produces slim images that take up less space.</p>
+<p>Put the following into a file called <code>Apptainer_example.def</code>:</p>
+<pre><code class="language-shell">Bootstrap: docker
+From: alpine:latest  # Use the latest Alpine Linux image as the base
+
+%post
+    # Update the package index and install essential packages
+    apk update
+
+    # Install build tools and libraries required for Python and R
+    # You must not have comments after the '\' in the following lines!
+    apk add --no-cache bash \
+        build-base \
+        zeromq-dev \
+        libffi-dev \
+        musl-dev \
+        openblas-dev \
+        R \
+        R-dev \
+        R-doc \
+        python3 \
+        py3-pip \
+        python3-dev \
+        py3-setuptools \
+        py3-wheel 
+
+    # Allow pip to modify system-wide packages (ChatGPT forgets that ALWAYS)
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+    # Install JupyterLab using pip
+    pip3 install --no-cache-dir jupyterlab
+
+    # Install R packages for Jupyter integration
+    R -e &quot;install.packages(c('IRkernel', 'IRdisplay'), repos='https://cloud.r-project.org/')&quot;
+
+    # Set up IRkernel to make R available as a Jupyter kernel
+    R -e &quot;IRkernel::installspec(user = FALSE)&quot;
+
+%environment
+    # Ensure /usr/local/bin is in the PATH so JupyterLab can be found
+    export PATH=&quot;/usr/local/bin:$PATH&quot;
+    # if you want to install more python packages in the sandbox:
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+%runscript
+    # By default, run JupyterLab when the container starts
+    jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
+</code></pre>
+<p>To build a sandbox for manual modification, run this command:</p>
+<pre><code class="language-shell">apptainer build --sandbox Apptainer_example Apptainer_example.def
+</code></pre>
+<p>Shell into the sandbox:</p>
+<pre><code class="language-shell">apptainer shell --writable Apptainer_example
+</code></pre>
+<p>From here you can now install anything else you might need using Alpine's <code>apk add --no-cache</code> command. After you have installed everything, including the jupyter lab server, you can test it with:</p>
+<pre><code class="language-shell">apptainer run Apptainer_example
+</code></pre>
+<p>If you're happy, you can then go ahead and build the image:</p>
+<pre><code class="language-shell">apptainer build Apptainer_example.sif Apptainer_example
+</code></pre>
+<p>The image can now be copied to COSMOS-SENS and used there using:</p>
+<pre><code class="language-shell">apptainer run Apptainer_example.sif
+</code></pre>
+<p>Again, <strong>if you are making an image on COSMOS</strong> you need to read <a href="https://singularity-tutorial.readthedocs.io/">Stefan's tutorial</a>.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-04-02 08:05:44.871916+00:00
+-->
