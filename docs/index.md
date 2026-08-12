@@ -172,7 +172,7 @@ Intermediate files should be placed outside the backup folder. For example, the 
 ## Modules
 Software at LUNARC is organised into modules which are loaded when needed, usually when a job is submitted. a rundown of the module system can be seen [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/), but lets load bowtie2 as an example:
 
-First we find the options avabilable using ```module spider```:
+First we find the options available using ```module spider```:
 
 ```
 $ module spider bowtie2
