@@ -47,7 +47,7 @@ To send jobs here, use `#SBATCH -p sens-gpu`.
 
     5) **Do not duplicate files between personal and shared folders**. This is especially true for files in `backup`.
 
-    6) **If you need help, your first point of contact is either Shamit or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+    6) **If you need help, your first point of contact is either Petter or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
 
     7) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
 
@@ -55,7 +55,7 @@ To send jobs here, use `#SBATCH -p sens-gpu`.
 
 ### 1) Make an account at SUPR
 
-The first thing you need to do is make an account at [SUPR](https://supr.naiss.se/). Make sure you provide a correct mobile phone number since your phone will be needed in the future for two-factor authentication. When you're done, contact Shamit Soneji (shamit.soneji [at] med.lu.se) stating which SCC lab you belong to. You will then be added to the list of users. 
+The first thing you need to do is make an account at [SUPR](https://supr.naiss.se/). Make sure you provide a correct mobile phone number since your phone will be needed in the future for two-factor authentication. When you're done, contact Petter Storm (petter.storm [at] med.lu.se) stating which SCC lab you belong to. You will then be added to the list of users. 
 
 ### 2) Log back in to SUPR and apply for an account at LUNARC.
 
@@ -63,12 +63,12 @@ Left menu under "Accounts". Fill out the details correctly and use your mobile n
 
 ### 3) Request a Static IP address
 
-**This is important, do this straight after step 2**. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Shamit for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP address for your port number. **Communicate this IP adress to Shamit at the same time so both VPN and fixed port IPs can be whitelisted**.
+**This is important, do this straight after step 2**. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Petter for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP address for your port number. **Communicate this IP adress to Petter at the same time so both VPN and fixed port IPs can be whitelisted**.
 
 
 ### 4) Sign the agreement
 
-**LUNARC will send you a digital agreement that you will need sign via Lucat**. When both you and Shamit have done this, someone from LUNARC will contact you with details on how you create your password.
+**LUNARC will send you a digital agreement that you will need sign via Lucat**. When both you and Petter have done this, someone from LUNARC will contact you with details on how you create your password.
 
 ### 5) Setup 2FA
 
@@ -250,7 +250,7 @@ $ module purge
 ```
 
 ## Installing software
-This is done by LUNARC and they have aksed that all software request go through us. If you need something installed please email Shamit with a URL to what is needed. You can also transfer software across using Apptainer/Singularity images (see below).
+This is done by LUNARC and they have aksed that all software request go through us. If you need something installed please email Petter with a URL to what is needed. You can also transfer software across using Apptainer/Singularity images (see below).
 
 ## Running jobs
 When you login into COSMOS-SENS you will be located on the front-end (FE). **This is not a place to run long computations**. The FE is for small interactive jobs, and many people work here. Long memory and processor intensive jobs should be sent to a compute node.
@@ -357,7 +357,7 @@ I recommend reading [this pdf](pdfs/HowToUseSingularityOnLsens2.pdf) about how t
 
 Nextflow and the [NF-core modules](https://nf-co.re/) are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotatation, and reporting. After a pipline is run, you also get the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same everytime you run it ensuring results are comparable.
 
-When nf-core piplines are run, docker images are pulled over the internet for use, but as COSMOS-SENS is a secure server with no internt connection, pipelines have to be downloaded and then transfered to COSMOS-SENS. In this case we are also downloading the required singularity images. If you require a pipeline that isn't there, please contact Shamit to have it downloaded and installed. It is far better we have them in one place for all to use, rather than duplicating them all over the system.
+When nf-core piplines are run, docker images are pulled over the internet for use, but as COSMOS-SENS is a secure server with no internt connection, pipelines have to be downloaded and then transfered to COSMOS-SENS. In this case we are also downloading the required singularity images. If you require a pipeline that isn't there, please contact Petter to have it downloaded and installed. It is far better we have them in one place for all to use, rather than duplicating them all over the system.
 
 ### Setting up to use nf-core
 
@@ -449,7 +449,7 @@ The contents of the sample sheet will vary depending on which pipline you are us
 nf-core pipelines will make a `work` folder if the tmp folder on the node isn't used. **Delete this folder when you are done!** It is normally huge and contains nothing of interest.
 
 ### Available pipelines
-The available pipelines are located in `/scale/gr01/shared/nf-core`. If the one you need is missing, contact Shamit for it to be downloaded.
+The available pipelines are located in `/scale/gr01/shared/nf-core`. If the one you need is missing, contact Petter for it to be downloaded.
 
 ### If you have *many* small fastq files
 Some well-based methods generate *thousands* of small fastq files which do not play nice with the queuing system on CSENS when using an nf-core pipeline. The jobs are fired-off to the nodes so quickly that SLURM cannot keep up, but importantly, setting up the task actually takes longer than the compute subsequently done.
