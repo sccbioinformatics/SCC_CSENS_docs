@@ -47,9 +47,21 @@ To send jobs here, use `#SBATCH -p sens-gpu`.
 
     5) **Do not duplicate files between personal and shared folders**. This is especially true for files in `backup`.
 
-    6) **If you need help, your first point of contact is either Petter or Stefan**. We will escalate issues to LUNARC if need be. This is to prevent them being swamped.
+    6) **If you need help, your first point of contact is Petter, the SCC HPC Coordinator** (see [Getting help](#getting-help) below).
 
-    7) If you have/do anything (software for example) that might be useful to other people, make it known on the Slack workgroup. We can place your software somewhere centrally for all to use.
+    7) If you have/do anything (software for example) that might be useful to other people, make it known on the Teams workgroup. We can place your software somewhere centrally for all to use.
+
+## Getting help
+
+If something isn't working, this is the path an issue follows:
+
+1) **Check Teams first**. If it looks like a general problem with the cluster (for example everyone's jobs are stuck, storage is unreachable, or nobody can log in), it's likely already being discussed there.
+
+2) **Raise the issue** with Petter, the SCC HPC Coordinator, via Teams or email (petter.storm [at] med.lu.se). Include what you were doing, what happened, and any relevant error messages or job IDs.
+
+3) **Petter triages it**: clarifying the problem, checking for known issues, coordinating any follow-up, and keeping you informed.
+
+4) **Resolve or escalate**: most things are resolved directly; anything platform-level gets escalated to LUNARC. This exists so LUNARC isn't swamped with issues that can be handled locally first.
 
 ## Getting access to COSMOS-SENS
 
@@ -142,7 +154,7 @@ i.e you don't need the `.lunarc.lu.se` part.
 
 !!! warning inline end "Be smart"
 
-    The point of having data on COSMOS-SENS is that it is protected, so be mindful about which folders you mount. Mounting `/home/user` for example would expose eveything you have in your home folder to your local machine, meaning that if someone were to try something malicious on your local computer they would also have access to everything you have on COMOS-SENS. Everything in your `/home` would also be exposed to any mistakes you make on you local machine.
+    The point of having data on COSMOS-SENS is that it is protected, so be mindful about which folders you mount. Mounting `/home/user` for example would expose everything you have in your home folder to your local machine, meaning that if someone were to try something malicious on your local computer they would also have access to everything you have on COSMOS-SENS. Everything in your `/home` would also be exposed to any mistakes you make on you local machine.
 
     It makes far more sense you mount specific folders rather than absolutely everything. Better safe than sorry.
 
@@ -169,7 +181,16 @@ Intermediate files should be placed outside the backup folder. For example, the 
 !!! note inline end
     **The backup is only for technical issues, it is not intended for file recovery if you do something wrong**. The `/backup` folders are *mirrored* to another drive, so if you delete a file in `/backup` it will also be deleted from the mirror. **We do not take daily/weekly snapshots**.
 
-## Modules
+## Software
+
+Use this checklist, in order, whenever you need a piece of software that isn't already set up for you. Looking for a full analysis pipeline rather than a single tool? Skip ahead to [Nextflow and NF-core](#nextflow-and-nf-core).
+
+### 1. Is it already a module?
+
+There are two places to check: LUNARC's own modules, and a second set of community modules built by end users for tools LUNARC doesn't carry.
+
+#### 1a. LUNARC modules
+
 Software at LUNARC is organised into modules which are loaded when needed, usually when a job is submitted. a rundown of the module system can be seen [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/), but lets load bowtie2 as an example:
 
 First we find the options available using ```module spider```:
@@ -249,8 +270,145 @@ Done. If you have too many module conflicts happening, you can wipe the slate cl
 $ module purge
 ```
 
-## Installing software
-This is done by LUNARC and they have aksed that all software request go through us. If you need something installed please email Petter with a URL to what is needed. You can also transfer software across using Apptainer/Singularity images (see below).
+#### 1b. SCC community modules
+
+Built by the previous coordinator or other end users for tools that aren't in the LUNARC stack (for example `SingSingCell`, `Rustody`, `ImageSmith`). Browse `/scale/gr01/shared/common/software/` to see what's currently available. These need one extra step to register the module path before you can load them:
+
+```shell
+module use /scale/gr01/shared/common/modules
+module load SingSingCell/1.1
+```
+
+Add the `module use` line to your `.bash_profile` (same pattern as the nf-core setup below) so it's always available, rather than needing to run it every session.
+
+### 2. Find or build a container
+
+If there's no module for what you need, the next option is a container. A container packages a piece of software together with everything it depends on (libraries, a specific Python/R version, system tools) into one self-contained, immutable image that runs identically regardless of what's installed on the host. On COSMOS-SENS these are built and run with **Apptainer** (formerly called Singularity): a single `.sif` file you can copy around and run directly, with no `module load` or LUNARC install needed, and no internet access required at run time.
+
+Containers are also the best way to do reproducible research: **never update packages in the middle of a project**: underlying methods can change and shift your results. Freeze the versions you used into a container instead, named accordingly, so you can always come back to the exact same setup, even years later. If you need to upgrade, build a new version and keep the old one as-is.
+
+It's easier to build an image on Linux. If you use a Mac, your best bet is **open COSMOS**, the same routing used below for pulling ready-made containers.
+
+#### 2a. Ready-made (Biocontainers)
+
+Check whether the tool already exists as a pre-built container before building anything yourself.
+
+First, check the shared image library at `/scale/gr01/shared/common/software/`: someone may have already built or downloaded what you need.
+
+If it's not there, [Biocontainers](https://quay.io/organization/biocontainers) hosts ready-made Singularity/Docker images for most common bioinformatics tools, maintained by the Bioconda/Galaxy community. Since COSMOS-SENS has no internet access, the image has to be pulled *outside* the system and then transferred in:
+
+!!! note inline end
+    **Linux**: you can pull directly on your own machine.
+
+    **Mac/Windows**: Apptainer doesn't run natively. Either ask a colleague with a Linux machine (or Petter) to pull it for you, or use **open COSMOS** instead, the same way you would build a custom image (see 2b below).
+
+```shell
+apptainer pull bowtie2.sif docker://quay.io/biocontainers/bowtie2:2.5.4--he20e202_3
+```
+
+This creates a `.sif` file, which you then copy to COSMOS-SENS using the sshfs/diode method described [above](#getting-data-to-cosmos-sens). Once it's there, run it with:
+
+```shell
+apptainer exec bowtie2.sif bowtie2 <rest of the command here>
+```
+
+#### 2b. Build your own
+
+We have a tutorial which Stefan Lang has written showing how to make images on COSMOS that you can read [here](https://singularity-tutorial.readthedocs.io/). If you are making an image **on your own Linux machine**, an example is given below.
+
+##### Minimal example (taken from [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/))
+
+This is an Apptainer definition file for creating a container based on Alpine Linux with Python, JupyterLab, R, and R-Jupyter integration. We use Alpine Linux for this because it produces slim images that take up less space.
+
+
+Put the following into a file called `Apptainer_example.def`:
+
+```shell
+Bootstrap: docker
+From: alpine:latest  # Use the latest Alpine Linux image as the base
+
+%post
+    # Update the package index and install essential packages
+    apk update
+
+    # Install build tools and libraries required for Python and R
+    # You must not have comments after the '\' in the following lines!
+    apk add --no-cache bash \
+        build-base \
+        zeromq-dev \
+        libffi-dev \
+        musl-dev \
+        openblas-dev \
+        R \
+        R-dev \
+        R-doc \
+        python3 \
+        py3-pip \
+        python3-dev \
+        py3-setuptools \
+        py3-wheel 
+
+    # Allow pip to modify system-wide packages (ChatGPT forgets that ALWAYS)
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+    # Install JupyterLab using pip
+    pip3 install --no-cache-dir jupyterlab
+
+    # Install R packages for Jupyter integration
+    R -e "install.packages(c('IRkernel', 'IRdisplay'), repos='https://cloud.r-project.org/')"
+
+    # Set up IRkernel to make R available as a Jupyter kernel
+    R -e "IRkernel::installspec(user = FALSE)"
+
+%environment
+    # Ensure /usr/local/bin is in the PATH so JupyterLab can be found
+    export PATH="/usr/local/bin:$PATH"
+    # if you want to install more python packages in the sandbox:
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+%runscript
+    # By default, run JupyterLab when the container starts
+    jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
+```
+
+To build a sandbox for manual modification, run this command:
+
+```shell
+apptainer build --sandbox Apptainer_example Apptainer_example.def
+```
+
+Shell into the sandbox:
+
+```shell
+apptainer shell --writable Apptainer_example
+```
+From here you can now install anything else you might need using Alpine's `apk add --no-cache` command. After you have installed everything, including the jupyter lab server, you can test it with:
+
+```shell
+apptainer run Apptainer_example
+```
+
+If you're happy, you can then go ahead and build the image:
+
+```shell
+apptainer build Apptainer_example.sif Apptainer_example
+```
+
+The image can now be copied to COSMOS-SENS and used there using:
+
+```shell
+apptainer run Apptainer_example.sif
+```
+
+Again, **if you are making an image on COSMOS** you need to read [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/).
+
+### 3. Still stuck? Contact Petter
+
+Installing software as a module is done by LUNARC, and they have asked that all software requests go through the SCC HPC Coordinator (Petter). If you can't find a module or container, or get stuck building one yourself, email Petter with a URL to what is needed.
+
+### 4. Is your container useful to others?
+
+If the container you built is likely to be useful to other people, mention it on the Teams workgroup or ask Petter about it. A broadly useful container can be registered as an SCC community module (see step 1b) instead of everyone keeping their own copy of the `.sif` file. Follow [Stefan's module-setup guide](https://singularity-tutorial.readthedocs.io/HowToSetUpAModule/) to add a module file under `/scale/gr01/shared/common/modules/<name>/<version>.lua` pointing at your image in `/scale/gr01/shared/common/software/<name>/<version>/`, then let Petter know so others can `module load` it too.
 
 ## Running jobs
 When you login into COSMOS-SENS you will be located on the front-end (FE). **This is not a place to run long computations**. The FE is for small interactive jobs, and many people work here. Long memory and processor intensive jobs should be sent to a compute node.
@@ -344,12 +502,6 @@ So in this case, the output is directed to the **local** storage at `$SNIC_TMP/o
 
 Please be considerate to your co-workers, resources are always limited. Try to use only the resources as you actually need, and importantly think about what your software is able to do. Most of the available software does not benefit from more than 10 cores, and no programs we know of can use two nodes at the same time.
 
-
-## Reproducible research
-
-**Never update packages in the middle of a project!**. There is always a chance underlying methods have changed that may cause a shift in the numbers and your results could change. The best thing you can do is "freeze" your packages but putting eveything into a singularity container named accordingly, which you can use again if needed knowing that all package version are the same. Singularity containers are also great for getting software onto COSMOS-SENS without needing LUNARC support to do an install. You can read more about [Singularity images here](https://sylabs.io/guides/3.6/user-guide/quick_start.html). Singularity is installed on COSMOS-SEMS and no modules are needed to load it. If you have an immediate need for a package you might think about creating your own singularity image and uploading it to COSMOS-SENS. Before you do that, check out the folder "/projects/fs1/common/singularityImages/", there might already be an image that contains the software you are looking for.
-
-I recommend reading [this pdf](pdfs/HowToUseSingularityOnLsens2.pdf) about how to use singularity images and especially how to use the SingSingCell image that Stefan Lang has created.  
 
 ## Nextflow and NF-core
 
@@ -514,98 +666,3 @@ igv.sh
 ```
 
 A normal IGV session will open which you use as normal.
-
-## Apptainer (Singularity) containers
-
-Software can be packaged into Apptainer containers that provide a complete analysis environment that can be copied over to COSMOS-SENS and be used there. This means you get exactly what you need, and also reduces the workload on the good people at LUNARC. *This is also an excellent way of practicing reproducible research*. A project can be done using an immutable Apptainer image, so if you need to go back to the project in *X* years time, you have the original software setup you had when you first did it. If you upgrade a piece of software in your image, you can make a new version of it so the previous version still exists in the original state.
-
-It's easier to make an image on a Linux system if you are going to use it on COSMOS-SENS. If you use a Mac, your best bet is to use open COSMOS to make the image which you can copy to COSMOS-SENS.
-
-We have a tutorial which Stefan Lang has written showing how to make images on COSMOS that you can read [here](https://singularity-tutorial.readthedocs.io/). If you are making an image **on your own Linux machine**, an example is given below.
-
-
-### Minimal example (taken from [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/)).
-
-This is an Apptainer definition file for creating a container based on Alpine Linux with Python, JupyterLab, R, and R-Jupyter integration. We use Alpine Linux for this because it produces slim images that take up less space.
-
-
-Put the following into a file called `Apptainer_example.def`:
-
-```shell
-Bootstrap: docker
-From: alpine:latest  # Use the latest Alpine Linux image as the base
-
-%post
-    # Update the package index and install essential packages
-    apk update
-
-    # Install build tools and libraries required for Python and R
-    # You must not have comments after the '\' in the following lines!
-    apk add --no-cache bash \
-        build-base \
-        zeromq-dev \
-        libffi-dev \
-        musl-dev \
-        openblas-dev \
-        R \
-        R-dev \
-        R-doc \
-        python3 \
-        py3-pip \
-        python3-dev \
-        py3-setuptools \
-        py3-wheel 
-
-    # Allow pip to modify system-wide packages (ChatGPT forgets that ALWAYS)
-    export PIP_BREAK_SYSTEM_PACKAGES=1
-
-    # Install JupyterLab using pip
-    pip3 install --no-cache-dir jupyterlab
-
-    # Install R packages for Jupyter integration
-    R -e "install.packages(c('IRkernel', 'IRdisplay'), repos='https://cloud.r-project.org/')"
-
-    # Set up IRkernel to make R available as a Jupyter kernel
-    R -e "IRkernel::installspec(user = FALSE)"
-
-%environment
-    # Ensure /usr/local/bin is in the PATH so JupyterLab can be found
-    export PATH="/usr/local/bin:$PATH"
-    # if you want to install more python packages in the sandbox:
-    export PIP_BREAK_SYSTEM_PACKAGES=1
-
-%runscript
-    # By default, run JupyterLab when the container starts
-    jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
-```
-
-To build a sandbox for manual modification, run this command:
-
-```shell
-apptainer build --sandbox Apptainer_example Apptainer_example.def
-```
-
-Shell into the sandbox:
-
-```shell
-apptainer shell --writable Apptainer_example
-```
-From here you can now install anything else you might need using Alpine's `apk add --no-cache` command. After you have installed everything, including the jupyter lab server, you can test it with:
-
-```shell
-apptainer run Apptainer_example
-```
-
-If you're happy, you can then go ahead and build the image:
-
-```shell
-apptainer build Apptainer_example.sif Apptainer_example
-```
-
-The image can now be copied to COSMOS-SENS and used there using:
-
-```shell
-apptainer run Apptainer_example.sif
-```
-
-Again, **if you are making an image on COSMOS** you need to read [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/).
