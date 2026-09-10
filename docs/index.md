@@ -272,22 +272,47 @@ $ module purge
 
 #### 1b. SCC community modules
 
-Built by the previous coordinator or other end users for tools that aren't in the LUNARC stack (for example `SingSingCell`, `Rustody`, `ImageSmith`). Browse `/scale/gr01/shared/common/software/` to see what's currently available. These need one extra step to register the module path before you can load them:
+Built by the previous coordinator or other end users for tools that aren't in the LUNARC stack (for example `SingSingCell`, `Rustody`, `ImageSmith`). These need one extra step to register the module path before you can see or load them:
 
 ```shell
 module use /scale/gr01/shared/common/modules
-module load SingSingCell/1.1
+module avail
 ```
 
-Add the `module use` line to your `.bash_profile` (same pattern as the nf-core setup below) so it's always available, rather than needing to run it every session.
+`module avail` lists what's currently registered (you can also just browse `/scale/gr01/shared/common/software/` on disk). Add the `module use` line to your `.bash_profile` (same pattern as the nf-core setup below) so it's always available, rather than needing to run it every session.
+
+!!! warning inline end "Some of these launch an application on load"
+    Modules like `SingSingCell` and `ImageSmith` aren't just environment variables — loading them starts a Jupyter session immediately. **Only load them inside a Slurm allocation, never on the front end.**
+
+A typical job script for one of these:
+
+```shell
+#! /bin/bash
+#SBATCH -n 1
+#SBATCH -N 1
+#SBATCH -t 24:00:00
+#SBATCH -A csens2024-3-2
+#SBATCH -J SingSing
+#SBATCH -o SingSing.%j.out
+#SBATCH -e SingSing.%j.err
+module purge
+module use /scale/gr01/shared/common/modules
+module load SingSingCell/1.1
+exit 0
+```
+
+Submit with `sbatch`, then check the `.err` file for a browser URL once the job starts (node name, port, and a login token). Open it in a browser **inside your COSMOS-SENS desktop session**, not on your own laptop — the compute node isn't reachable from outside. `scancel <jobid>` when you're done.
 
 ### 2. Find or build a container
 
-If there's no module for what you need, the next option is a container. A container packages a piece of software together with everything it depends on (libraries, a specific Python/R version, system tools) into one self-contained, immutable image that runs identically regardless of what's installed on the host. On COSMOS-SENS these are built and run with **Apptainer** (formerly called Singularity): a single `.sif` file you can copy around and run directly, with no `module load` or LUNARC install needed, and no internet access required at run time.
+If there's no module for what you need, the next option is a container. A container packages a piece of software together with everything it depends on (libraries, a specific Python/R version, system tools) into one self-contained, immutable image that runs identically regardless of what's installed on the host. On COSMOS-SENS these are run with **Apptainer** (formerly called Singularity): a single `.sif` file you can copy around and execute directly, with no `module load` or LUNARC install needed.
+
+Building or downloading the image itself always happens *outside* COSMOS-SENS, on an internet-connected Linux machine that matches COSMOS-SENS's **x86_64/amd64** nodes — an image built on an Apple Silicon (arm64) Mac won't run here at all, which is the main reason Mac users are routed to **open COSMOS** below rather than building locally. Once you have a `.sif`, transfer it in via the sshfs/diode method [above](#getting-data-to-cosmos-sens) and run it entirely offline; the actual computational work should happen inside a Slurm allocation, same as any other software, not directly on the front end (see [Running jobs](#running-jobs)).
+
+!!! danger inline end "Keep sensitive data out of the build"
+    The machine you build or pull an image on is outside COSMOS-SENS's protected environment. Never copy real sequencing/patient data into an image while building it externally — use test or dummy data, and only point the finished container at your real data once it's running on COSMOS-SENS.
 
 Containers are also the best way to do reproducible research: **never update packages in the middle of a project**: underlying methods can change and shift your results. Freeze the versions you used into a container instead, named accordingly, so you can always come back to the exact same setup, even years later. If you need to upgrade, build a new version and keep the old one as-is.
-
-It's easier to build an image on Linux. If you use a Mac, your best bet is **open COSMOS**, the same routing used below for pulling ready-made containers.
 
 #### 2a. Ready-made (Biocontainers)
 
@@ -300,13 +325,13 @@ If it's not there, [Biocontainers](https://quay.io/organization/biocontainers) h
 !!! note inline end
     **Linux**: you can pull directly on your own machine.
 
-    **Mac/Windows**: Apptainer doesn't run natively. Either ask a colleague with a Linux machine (or Petter) to pull it for you, or use **open COSMOS** instead, the same way you would build a custom image (see 2b below).
+    **Mac/Windows**: as above, Apptainer doesn't run natively there either. Ask a colleague with a Linux machine (or Petter) to pull it for you, or use **open COSMOS** (see 2b below).
 
 ```shell
 apptainer pull bowtie2.sif docker://quay.io/biocontainers/bowtie2:2.5.4--he20e202_3
 ```
 
-This creates a `.sif` file, which you then copy to COSMOS-SENS using the sshfs/diode method described [above](#getting-data-to-cosmos-sens). Once it's there, run it with:
+This creates a `.sif` file, which you then copy to COSMOS-SENS using the sshfs/diode method described [above](#getting-data-to-cosmos-sens). Once it's there, run the actual work inside a Slurm job (see [Running jobs](#running-jobs)) rather than on the front end:
 
 ```shell
 apptainer exec bowtie2.sif bowtie2 <rest of the command here>
@@ -314,7 +339,12 @@ apptainer exec bowtie2.sif bowtie2 <rest of the command here>
 
 #### 2b. Build your own
 
-We have a tutorial which Stefan Lang has written showing how to make images on COSMOS that you can read [here](https://singularity-tutorial.readthedocs.io/). If you are making an image **on your own Linux machine**, an example is given below.
+Where you build depends on your machine:
+
+- **Your own Linux machine** (matching COSMOS-SENS's x86_64/amd64 architecture): use `apptainer build`/`apptainer shell` directly, as in the example below.
+- **Open COSMOS**: you won't have the permissions to run `apptainer build` directly there. Instead load the `ImageSmith` module inside a Slurm job, the same launcher pattern as `SingSingCell` above (1b) — it gives you a Jupyter Lab terminal with Apptainer already available inside it, from which you can run the same commands as below without needing root.
+
+See [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/) for the full walkthrough of both routes. You don't need to have already tried and failed at this yourself before asking for help — if it looks like more trouble than it's worth, skip straight to [step 3](#3-still-stuck-contact-petter).
 
 ##### Minimal example (taken from [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/))
 
@@ -323,7 +353,7 @@ This is an Apptainer definition file for creating a container based on Alpine Li
 
 Put the following into a file called `Apptainer_example.def`:
 
-```shell
+```
 Bootstrap: docker
 From: alpine:latest  # Use the latest Alpine Linux image as the base
 
@@ -346,9 +376,9 @@ From: alpine:latest  # Use the latest Alpine Linux image as the base
         py3-pip \
         python3-dev \
         py3-setuptools \
-        py3-wheel 
+        py3-wheel
 
-    # Allow pip to modify system-wide packages (ChatGPT forgets that ALWAYS)
+    # Allow pip to modify system-wide packages
     export PIP_BREAK_SYSTEM_PACKAGES=1
 
     # Install JupyterLab using pip
@@ -371,36 +401,55 @@ From: alpine:latest  # Use the latest Alpine Linux image as the base
     jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
 ```
 
-To build a sandbox for manual modification, run this command:
+`apptainer build` already runs the whole `%post` section above, so building straight from the `.def` file gets you a working image:
+
+```shell
+apptainer build Apptainer_example.sif Apptainer_example.def
+```
+
+If you need to debug or try out extra packages first, build a writable **sandbox** instead of a final image:
 
 ```shell
 apptainer build --sandbox Apptainer_example Apptainer_example.def
 ```
 
-Shell into the sandbox:
+Shell into it to experiment. A writable sandbox lets you write to the filesystem, but package managers like `apk` still need root to actually install anything — `--writable` alone doesn't grant that, so add `--fakeroot` (this needs to be enabled for your account by an admin; ask Petter if it isn't):
 
 ```shell
-apptainer shell --writable Apptainer_example
-```
-From here you can now install anything else you might need using Alpine's `apk add --no-cache` command. After you have installed everything, including the jupyter lab server, you can test it with:
-
-```shell
-apptainer run Apptainer_example
+apptainer shell --fakeroot --writable Apptainer_example
 ```
 
-If you're happy, you can then go ahead and build the image:
+From here you can install anything else you need with Alpine's `apk add --no-cache` command, and test it with `jupyter lab ...` directly inside the sandbox. **Once you know what you need, add it to the `%post` section of the `.def` file** rather than leaving it only in the sandbox — that's what makes the image reproducible and rebuildable later, rather than a one-off you can't recreate. Pin package versions where the package manager supports it (e.g. `apk add package=1.2.3`), so rebuilding in a year gives you the same thing.
+
+When you're done experimenting, leave the sandbox before running anything else on the host:
 
 ```shell
-apptainer build Apptainer_example.sif Apptainer_example
+exit
 ```
 
-The image can now be copied to COSMOS-SENS and used there using:
+Then build your final image from the **updated `.def` file**, not from the sandbox, so the recipe stays the single source of truth:
 
 ```shell
+apptainer build Apptainer_example.sif Apptainer_example.def
+```
+
+The image can now be copied to COSMOS-SENS. Running it for real means starting it inside a Slurm allocation, the same launcher pattern as `SingSingCell`/`ImageSmith` above:
+
+```shell
+#! /bin/bash
+#SBATCH -n 1
+#SBATCH -N 1
+#SBATCH -t 24:00:00
+#SBATCH -A csens2024-3-2
+#SBATCH -J Jupyter
+#SBATCH -o Jupyter.%j.out
+#SBATCH -e Jupyter.%j.err
 apptainer run Apptainer_example.sif
 ```
 
-Again, **if you are making an image on COSMOS** you need to read [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/).
+Submit with `sbatch`, then check the `.out`/`.err` files for the node name, port, and token in the printed URL (e.g. `http://snXX:9734/lab?token=...`). Open that URL in a browser **inside your COSMOS-SENS desktop session**, not on your own laptop — the compute node isn't reachable from outside, and the token in the link is your authentication, no separate login needed. `scancel <jobid>` when you're done, to free the node for others.
+
+If you want to swap Alpine for a different base image, check [Stefan's tutorial](https://singularity-tutorial.readthedocs.io/) (or ask Petter) first for any constraints specific to building via ImageSmith on open COSMOS.
 
 ### 3. Still stuck? Contact Petter
 
@@ -408,7 +457,24 @@ Installing software as a module is done by LUNARC, and they have asked that all 
 
 ### 4. Is your container useful to others?
 
-If the container you built is likely to be useful to other people, mention it on the Teams workgroup or ask Petter about it. A broadly useful container can be registered as an SCC community module (see step 1b) instead of everyone keeping their own copy of the `.sif` file. Follow [Stefan's module-setup guide](https://singularity-tutorial.readthedocs.io/HowToSetUpAModule/) to add a module file under `/scale/gr01/shared/common/modules/<name>/<version>.lua` pointing at your image in `/scale/gr01/shared/common/software/<name>/<version>/`, then let Petter know so others can `module load` it too.
+If the container you built is likely to be useful to other people, mention it on the Teams workgroup or ask Petter about it. A broadly useful container can be registered as an SCC community module (see step 1b) instead of everyone keeping their own copy of the `.sif` file. The pattern ([Stefan's module-setup guide](https://singularity-tutorial.readthedocs.io/HowToSetUpAModule/) has the full explanation, though its own example has a couple of small syntax slips) is a small Lua file under `/scale/gr01/shared/common/modules/<name>/<version>.lua` that points at your image in `/scale/gr01/shared/common/software/<name>/<version>/`, for example:
+
+```lua
+help([[Runs MyTool via Apptainer]])
+
+local version = "1.0"
+local base = "/scale/gr01/shared/common/software/MyTool/" .. version
+
+execute{cmd="apptainer run " .. base .. "/MyTool.sif", modeA={"load"}}
+
+whatis("Name        : MyTool")
+whatis("Version     : " .. version)
+whatis("Description : Apptainer image for MyTool")
+
+family("images")
+```
+
+Then let Petter know so others can `module load` it too.
 
 ## Running jobs
 When you login into COSMOS-SENS you will be located on the front-end (FE). **This is not a place to run long computations**. The FE is for small interactive jobs, and many people work here. Long memory and processor intensive jobs should be sent to a compute node.
@@ -425,20 +491,21 @@ Lets say you want to map reads using bowtie, an example header for a job `Run_bo
 
 ```shell
 #! /bin/bash
-#SBATCH -n 5
+#SBATCH -n 1
+#SBATCH -c 5
 #SBATCH -N 1
 #SBATCH -t 24:00:00
 #SBATCH -A csens2024-3-2
 #SBATCH -J BT2
 #SBATCH -o BT2.%j.out
-#SBATCH -e BT2SingSing.%j.err
+#SBATCH -e BT2.%j.err
 module purge
 
 module load GCC/10.3.0 Bowtie2/2.4.4
 
-bowtie2 <rest of the command here>
+bowtie2 --threads 5 <rest of the command here>
 ```
-In short `-n 5 ` requests 5 CPU cores, `-N 1` requests one node (do not ask for more), `-t 24:00:00` kills the job after 24 hours, `-A csens2024-3-2` specifies the project code, `-J BT2` is the name of your job, `-o BT2.%j.out` is the outfile of the job (name+job id),`-e BT2.%j.err` is where the error log goes.
+In short `-n 1` requests one task, and `-c 5` (`--cpus-per-task`) reserves 5 CPU cores for that task to use. Note this is different from asking for `-n 5`: `-n`/`--ntasks` requests separate tasks (useful for MPI-style programs), not cores for a single multithreaded one — for a program like bowtie2 that just spawns internal threads, `-c`/`--cpus-per-task` is what actually gives it more CPUs to use, and you still need to tell bowtie2 itself to use them (`--threads 5`). The rest: `-N 1` requests one node (do not ask for more), `-t 24:00:00` kills the job after 24 hours, `-A csens2024-3-2` specifies the project code, `-J BT2` is the name of your job, `-o BT2.%j.out` is the outfile of the job (name+job id), `-e BT2.%j.err` is where the error log goes.
 
 
 
@@ -529,20 +596,23 @@ export NXF_HOME=/scale/gr01/shared/nf-core/nextflow_sub/
 export NXF_SINGULARITY_HOME_MOUNT=true
 ```
 
-**You should then logout of COSMOS-SENS and log back in so these changes take effect**. These lines set the environment variables that
+**You should then logout of COSMOS-SENS and log back in so these changes take effect**. What each line does:
 
+- `NXF_OFFLINE`: stops Nextflow trying to reach the internet to check for pipeline updates, which would otherwise just fail on an offline system like COSMOS-SENS.
 
-1) Tells Nextflow where the singularity images are located (`/scale/gr01/shared/nf-core/singularity_cache`)
+- `NXF_SINGULARITY_LIBRARYDIR` / `NXF_SINGULARITY_CACHEDIR` / `SINGULARITY_CACHEDIR`: tell Nextflow where the pre-downloaded singularity images live (`/scale/gr01/shared/nf-core/singularity_cache`), so it uses those instead of trying to fetch images itself.
 
-2) Set the temp dir to the ones located on the nodes (`$SNIC_TMP`).
+- `SINGULARITY_TMPDIR`: points temporary build/pull files at node-local scratch (`$SNIC_TMP`) instead of the network filesystem.
+- `NXF_HOME`: sets Nextflow's own home directory to the central copy on shared (`/scale/gr01/shared/nf-core/nextflow_sub/`), so each user doesn't need their own.
 
-3) Binds the sigularity images to `/scale` so they can be found system wide.
+- `NXF_SINGULARITY_HOME_MOUNT`: mounts your real `$HOME` into the container. Nextflow doesn't do this by default; turn it on if a pipeline step expects to find something there.
 
-4) Sets the `home` of Nextflow to the central copy on shared (`/scale/gr01/shared/nf-core/nextflow_sub/`). This means each user doesn't need their own.
+!!! note inline end
+    `$SNIC_TMP` [only exists inside an active Slurm allocation](#run-jobs-using-the-local-disk), not on the front end. The `SINGULARITY_TMPDIR` line above only resolves to the right value if it gets (re-)read once you're inside your job; if in doubt, set it explicitly in the job script itself rather than relying solely on `.bash_profile`.
 
 When running a job, use the config file located here:
 
-`/scale/gr01/shared/nf-core/cosmo_sens_grp1_NFv24.config`
+`/scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24.config`
 
 
 This file contains the project ID and automatically sets the RAM and core resources so you don't have to.
@@ -598,7 +668,7 @@ nextflow run /scale/gr01/shared/nf-core/nf-core-cutandrun_3.2.2/3_2_2/main.nf \
 The contents of the sample sheet will vary depending on which pipline you are using, so be sure to read the manual.
 
 ### Remove the work folder
-nf-core pipelines will make a `work` folder if the tmp folder on the node isn't used. **Delete this folder when you are done!** It is normally huge and contains nothing of interest.
+nf-core pipelines will make a `work` folder if the tmp folder on the node isn't used. It holds every task's intermediate files, and it's what `-resume` uses to skip work that's already been done on a re-run. So it's only safe to delete once you're confident you won't need to resume that particular run again, for example once it's finished successfully and you've copied out the results you need — deleting it means a future `-resume` starts from scratch instead of picking up where you left off. It is normally huge and, once you no longer need it for resuming, contains nothing of further interest.
 
 ### Available pipelines
 The available pipelines are located in `/scale/gr01/shared/nf-core`. If the one you need is missing, contact Petter for it to be downloaded.
