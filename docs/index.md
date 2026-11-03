@@ -6,7 +6,7 @@ In order to keep the system orderly we have set out some guidelines which everyo
 
 ## What is COSMOS-SENS?
 
-The GDPR is an EU directive that protects information and data of individuals, therefore sequence data from living subjects has to be kept secure under these rules. COSMOS-SENS is a isolated HPC platform housed at LUNARC where we handle and analyse sequence data under GDPR rules. ***This means COSMOS-SENS doesn't have a connection to the internet***, and transfering data to/from COSMOS-SENS is done via sftp (more later). In practical terms, many within the SCC use COSMOS-SENS to analyse data from other species (mouse/rat etc) as this is where our main storage is kept.
+The GDPR is an EU directive that protects information and data of individuals, therefore sequence data from living subjects has to be kept secure under these rules. COSMOS-SENS is an isolated HPC platform housed at LUNARC where we handle and analyse sequence data under GDPR rules. ***This means COSMOS-SENS doesn't have a connection to the internet***, and transferring data to/from COSMOS-SENS is done via sftp (more later). In practical terms, many within the SCC use COSMOS-SENS to analyse data from other species (mouse/rat etc) as this is where our main storage is kept.
 
 ## Who is COSMOS-SENS for?
 
@@ -75,7 +75,7 @@ Left menu under "Accounts". Fill out the details correctly and use your mobile n
 
 ### 3) Request a Static IP address
 
-**This is important, do this straight after step 2**. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Petter for communicaton to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP address for your port number. **Communicate this IP adress to Petter at the same time so both VPN and fixed port IPs can be whitelisted**.
+**This is important, do this straight after step 2**. As a further layer of security we employ IP address filtering to make sure only authorised users can establish a connection to COSMOS-SENS. While the above is being done, contact LDC (servicedesk@lu.se) and request a fixed IP address for your VPN. When you have this, email it to Petter for communication to LUNARC so it can be whitelisted. If you work on a machine connected by a cable to the wall at the BMC too, ask LDC to fix the IP address for your port number. **Communicate this IP address to Petter at the same time so both VPN and fixed port IPs can be whitelisted**.
 
 
 ### 4) Sign the agreement
@@ -97,7 +97,7 @@ Go to the LDC guide [here](https://luservicedesk.service-now.com/support_en?id=k
 
 
 !!! danger inline end "WARNING"
-    **DO NOT SHARE YOUR PASSWORD! This volates the terms of he agreement and your account will be disabled.**
+    **DO NOT SHARE YOUR PASSWORD! This violates the terms of the agreement and your account will be disabled.**
 
 ## Connecting to COSMOS-SENS
 
@@ -160,7 +160,7 @@ i.e you don't need the `.lunarc.lu.se` part.
 
 ## Cut & Paste
 
-Lets get this out of the way now. Cut and paste is **not** allowed from COSMOS outwards, i.e you **cannot** `ctrl-c` in COSMOS and `ctrl-v` to a window on your local machine. You *can* paste *into* COSMOS using the clipboard which is located on the left side of the screen. Click on the arrow to pull it out.
+Let's get this out of the way now. Cut and paste is **not** allowed from COSMOS outwards, i.e you **cannot** `ctrl-c` in COSMOS and `ctrl-v` to a window on your local machine. You *can* paste *into* COSMOS using the clipboard which is located on the left side of the screen. Click on the arrow to pull it out.
 
 The easiest way to C&P is to mount a COSMOS-SENS folder on to your local machine, and then just have a simple text file open in this window that can be open on both COSMOS and your local computer. This can then be a two-way clipboard between the two systems.
 
@@ -171,10 +171,10 @@ Storage is expensive, so what we have should be used efficiently. There are two 
 Your `home` folder will contain a folder called `backup`.
 
 #### /home/(userid)/backup
-This is where you can put raw fastq files. **This folder is limited to 400Tb and is backed up to a mirror nightly**. Please make sure that fastq files are gzipped.
+This is where you can put raw fastq files. **This folder is limited to 400 TB and is backed up to a mirror nightly**. Please make sure that fastq files are gzipped.
 
 ### /home/(userid)
-Intermediate files should be placed outside the backup folder. For example, the output from your pipelines that process fastq files. If you use any of the nf-core pipelines, make sure you delete the `work` folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards of they have been converted to BAM.
+Intermediate files should be placed outside the backup folder. For example, the output from your pipelines that process fastq files. If you use any of the nf-core pipelines, make sure you delete the `work` folder which is normally full of stuff you don't need. If your own pipeline produces SAM files, delete them afterwards if they have been converted to BAM.
 
 
 
@@ -191,9 +191,9 @@ There are two places to check: LUNARC's own modules, and a second set of communi
 
 #### 1a. LUNARC modules
 
-Software at LUNARC is organised into modules which are loaded when needed, usually when a job is submitted. a rundown of the module system can be seen [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/), but lets load bowtie2 as an example:
+Software at LUNARC is organised into modules which are loaded when needed, usually when a job is submitted. A rundown of the module system can be seen [here](https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_modules/), but let's load bowtie2 as an example:
 
-First we find the options available using ```module spider```:
+First we find the options available using `module spider`:
 
 ```
 $ module spider bowtie2
@@ -228,7 +228,7 @@ $ module spider bowtie2
 ----------------------------------------------------------------------------
 ```
 
-You can see there are several version available. To see how to load version 2.4.4 we need to run ```module spider`` again:
+You can see there are several versions available. To see how to load version 2.4.4 we need to run `module spider` again:
 
 ```
 $ module spider Bowtie2/2.4.4
@@ -485,9 +485,9 @@ Any jobs such as making and mapping fastq files should be sent to the blades, an
 ### Project code
 
 !!! tip inline end ""
-    For those registered to our COSMOS-SENS project, the code needed to submit the job is **csens2024-3-2** and you need to specify in the preamble of you script. 
+    For those registered to our COSMOS-SENS project, the code needed to submit the job is **csens2024-3-2** and you need to specify in the preamble of your script. 
     
-Lets say you want to map reads using bowtie, an example header for a job `Run_bowtie.sh` could look like this:
+Let's say you want to map reads using bowtie, an example header for a job `Run_bowtie.sh` could look like this:
 
 ```shell
 #! /bin/bash
@@ -553,7 +553,7 @@ We have also copied across the `/projects/fs1/common/` folder from LSENS2 which 
 ## Run jobs using the local disk
 Most jobs will create temporary files when running, so it makes sense (where possible) to use the local disk on each node to improve speed and reduce network traffic between the nodes and the storage.
 
-The slurm system is set up to give you a temporary folder on the nodes for each slurm job you start. The name of your temporary folder is stored in the `$SNIC_TMP`. This variable does not exist on the frontend. The folder on the node is private to you and will be deleted once the job is finished. So in the last step of your script you need to save your results. For example, you script might look something like:
+The slurm system is set up to give you a temporary folder on the nodes for each slurm job you start. The name of your temporary folder is stored in the `$SNIC_TMP`. This variable does not exist on the frontend. The folder on the node is private to you and will be deleted once the job is finished. So in the last step of your script you need to save your results. For example, your script might look something like:
 
 ```
 STAR ...\\
@@ -563,7 +563,7 @@ STAR ...\\
 cp $SNIC_TMP/out/MyAnalysis_* /scale/gr01/<userid>/pathtofinaldestination/
 ```
 
-So in this case, the output is directed to the **local** storage at `$SNIC_TMP/out/MyAnanlysis_`, and once the mapping is complete the results are copied to where you want you need them.
+So in this case, the output is directed to the **local** storage at `$SNIC_TMP/out/MyAnalysis_`, and once the mapping is complete the results are copied to where you need them.
 
 ## Be nice to your mates
 
@@ -572,15 +572,15 @@ Please be considerate to your co-workers, resources are always limited. Try to u
 
 ## Nextflow and NF-core
 
-**Note: this document has been updated to show how to run pipelines using Nexflow v24**. The previous document gave instructions for v23.
+**Note: this document has been updated to show how to run pipelines using Nextflow v24**. The previous document gave instructions for v23.
 
-Nextflow and the [NF-core modules](https://nf-co.re/) are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotatation, and reporting. After a pipline is run, you also get the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same everytime you run it ensuring results are comparable.
+Nextflow and the [NF-core modules](https://nf-co.re/) are a fantastic resource for bioinformaticians. There are a multitude of pipelines for various NGS applications which go into real depth regarding QC, mapping methods, annotation, and reporting. After a pipeline is run, you also get the version numbers of the software used for easy reporting in papers, but importantly, the pipeline remains the same every time you run it ensuring results are comparable.
 
-When nf-core piplines are run, docker images are pulled over the internet for use, but as COSMOS-SENS is a secure server with no internt connection, pipelines have to be downloaded and then transfered to COSMOS-SENS. In this case we are also downloading the required singularity images. If you require a pipeline that isn't there, please contact Petter to have it downloaded and installed. It is far better we have them in one place for all to use, rather than duplicating them all over the system.
+When nf-core pipelines are run, docker images are pulled over the internet for use, but as COSMOS-SENS is a secure server with no internet connection, pipelines have to be downloaded and then transferred to COSMOS-SENS. In this case we are also downloading the required singularity images. If you require a pipeline that isn't there, please contact Petter to have it downloaded and installed. It is far better we have them in one place for all to use, rather than duplicating them all over the system.
 
 ### Setting up to use nf-core
 
-There are several commonly used piplines located at `/scale/gr01/shared/nf-core`, and to use them you need to add a few lines into a file called `.bash_profile`.
+There are several commonly used pipelines located at `/scale/gr01/shared/nf-core`, and to use them you need to add a few lines into a file called `.bash_profile`.
 
 1) Open the file using `gedit ~/.bash_profile`
 
@@ -629,7 +629,7 @@ Sample2,Sample2_R1.fastq.gz,Sample2_R2.fastq.gz,auto
 Sample3,Sample3_R1.fastq.gz,Sample3_R2.fastq.gz,auto
 ```
 
-and a script `NFC_RNAseq.sh` running the basic rnaseq pipline would look like this:
+and a script `NFC_RNAseq.sh` running the basic rnaseq pipeline would look like this:
 
 ```shell
 module load Nextflow/24.10.0
@@ -644,7 +644,7 @@ nextflow run /scale/gr01/shared/nf-core/nf-core-rnaseq_3.17.0/3_17_0/main.nf \
 ```
 
 
-This script, the fastq files, and the samplesheet are all in the same folder. The pipline is launched using:
+This script, the fastq files, and the samplesheet are all in the same folder. The pipeline is launched using:
 
 `sh NFC_RNAseq.sh`
 
@@ -762,7 +762,7 @@ The following invalid input values have been detected: --igenomes_base
 ```
 
 ### Sample sheets
-The contents of the sample sheet will vary depending on which pipline you are using, so be sure to read the manual.
+The contents of the sample sheet will vary depending on which pipeline you are using, so be sure to read the manual.
 
 ### Remove the work folder
 nf-core pipelines will make a `work` folder if the tmp folder on the node isn't used. It holds every task's intermediate files, and it's what `-resume` uses to skip work that's already been done on a re-run. So it's only safe to delete once you're confident you won't need to resume that particular run again, for example once it's finished successfully and you've copied out the results you need — deleting it means a future `-resume` starts from scratch instead of picking up where you left off. It is normally huge and, once you no longer need it for resuming, contains nothing of further interest.
@@ -773,7 +773,7 @@ The available pipelines are located in `/scale/gr01/shared/nf-core`. If the one 
 ### If you have *many* small fastq files
 Some well-based methods generate *thousands* of small fastq files which do not play nice with the queuing system on CSENS when using an nf-core pipeline. The jobs are fired-off to the nodes so quickly that SLURM cannot keep up, but importantly, setting up the task actually takes longer than the compute subsequently done.
 
-If you are in this situation, you need to run the pipeline **locally** on a **single** node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. Do this this you have to used a different config file, namely `cosmos_sens_grp1_NFv24_local.config`. So, to use RNAseq as an example you would submit a job like so:
+If you are in this situation, you need to run the pipeline **locally** on a **single** node instead. This means all the pipeline steps will be carried out on single server, and not distributed over multiple nodes which is what normally happens. To do this you have to use a different config file, namely `cosmos_sens_grp1_NFv24_local.config`. So, to use RNAseq as an example you would submit a job like so:
 
 
 ```shell
