@@ -664,6 +664,103 @@ nextflow run /scale/gr01/shared/nf-core/nf-core-cutandrun_3.2.2/3_2_2/main.nf \
 --outdir /home/<userid>/<path_to_out>/CaR_Out
 ```
 
+### Fusion detection (rnafusion)
+
+nf-core/rnafusion **4.1.0** is installed at `/scale/gr01/shared/nf-core/nf-core-rnafusion_4.1.0/`. It works a little differently from the other pipelines here, so read this whole section before you run it.
+
+!!! warning inline end "Different Nextflow version"
+    rnafusion needs **`module load Nextflow/25.04.7`**, not the `Nextflow/24.10.0` used in the other examples. On 24.10.x the pipeline fails to compile with `Variable tools already defined`.
+
+#### Start with the ready-made test
+
+`/scale/gr01/shared/nf-core/nf-core-rnafusion_4.1.0/test/` contains small test data, samplesheets, two job scripts (`run_human.sh` and `run_mouse.sh`) and a `README.txt`. The scripts set the `NXF_*` variables themselves, so you don't need the `.bash_profile` setup to run them. Copy one script to an empty folder and submit it:
+
+```shell
+mkdir ~/rnafusion_test && cd ~/rnafusion_test
+cp /scale/gr01/shared/nf-core/nf-core-rnafusion_4.1.0/test/run_human.sh .
+sbatch run_human.sh
+```
+
+The test takes a few minutes once the job starts. For human you should get 15 fusions from both Arriba and STAR-Fusion (for example FGFR3--TACC3). For mouse you should get none, because the test data is from normal liver. Run the test first, before your own data. It is also a good template: copy one of its samplesheets, put in your own fastq paths, and change `--input`.
+
+#### Only Arriba and STAR-Fusion
+
+Only **Arriba** and **STAR-Fusion** have references installed, so you must always pass `--tools arriba,starfusion`. The other tools in the pipeline (FusionCatcher, fusion-report, FusionInspector, CTAT-splicing, StringTie, Salmon) have no references and will fail.
+
+#### Human or mouse
+
+- **Human** (GRCh38, GENCODE v46): `--genomes_base /scale/gr01/shared/nf-core/references/rnafusion_4.1.0`
+- **Mouse** (GRCm39, GENCODE M31): `-params-file /scale/gr01/shared/nf-core/nf-core-rnafusion_4.1.0/GRCm39.yaml` **instead of** `--genomes_base`. nf-core/rnafusion doesn't officially support mouse. It works here because that file gives every reference explicitly.
+
+#### Sample sheet
+
+The columns are the same as for RNAseq (`sample,fastq_1,fastq_2,strandedness`), but strandedness must be `forward` or `reverse`. **`auto` is not accepted**, unlike in rnaseq.
+
+```shell
+sample,fastq_1,fastq_2,strandedness
+Sample1,Sample1_R1.fastq.gz,Sample1_R2.fastq.gz,reverse
+Sample2,Sample2_R1.fastq.gz,Sample2_R2.fastq.gz,reverse
+```
+
+Check your library prep; most stranded Illumina kits (e.g. TruSeq Stranded) are reverse.
+
+#### Running it
+
+Run rnafusion inside `sbatch` on a **single node** with the `_local` config, the same pattern as [If you have *many* small fastq files](#if-you-have-many-small-fastq-files) below. A job script `rnafusion.sh` for human looks like this:
+
+```shell
+#! /bin/bash
+#SBATCH -n 48
+#SBATCH -N 1
+#SBATCH -t 48:00:00
+#SBATCH -A csens2024-3-2
+#SBATCH -J rnafusion
+#SBATCH -o rnafusion.%j.out
+#SBATCH -e rnafusion.%j.err
+
+module load Nextflow/25.04.7
+
+nextflow run /scale/gr01/shared/nf-core/nf-core-rnafusion_4.1.0/4_1_0/main.nf \
+-profile singularity \
+--input samplesheet.csv \
+-c /scale/gr01/shared/nf-core/cosmos_sens_grp1_NFv24_local.config \
+-c /scale/gr01/shared/nf-core/nf-core-rnafusion_4.1.0/cosmos_limits.config \
+--genomes_base /scale/gr01/shared/nf-core/references/rnafusion_4.1.0 \
+--tools arriba,starfusion \
+--outdir /home/<userid>/<project>/rnafusion_out
+```
+
+For mouse, replace the `--genomes_base` line with:
+
+```shell
+-params-file /scale/gr01/shared/nf-core/nf-core-rnafusion_4.1.0/GRCm39.yaml \
+```
+
+Submit it with `sbatch rnafusion.sh`. Unlike the test scripts, this script gets the `NXF_*` variables from your `.bash_profile` (see [Setting up to use nf-core](#setting-up-to-use-nf-core)).
+
+!!! danger inline end "Don't use the distributed config inside sbatch"
+    The normal `cosmos_sens_grp1_NFv24.config` sends each step out as its own Slurm job. Nextflow can't submit jobs from inside a job on COSMOS-SENS, so with that config inside `sbatch` it fails with `sbatch: error: Batch job submission failed: Invalid mcs_label specified`. Running rnafusion the distributed way from the front end (as in the RNAseq example) **hasn't been tested yet**, so stick to the single-node job above.
+
+**Always add the extra `-c .../cosmos_limits.config`**, on top of the cluster config. It does two things:
+
+- It caps each task at 48 CPUs, 250 GB and 48 h. Without it, a retried STAR task asks for 400 GB of RAM (200 GB × the attempt number). That is more than a standard node has (256 GB), so the job never starts.
+- It switches off the internet URLs in the pipeline defaults. Without it, the pipeline fails or hangs for about 15 minutes at startup, because COSMOS-SENS has no internet.
+
+Run each analysis from **its own folder**. Two runs launched from the same folder share the `.nextflow/` folder and overwrite each other's `.nextflow.log`.
+
+#### Results
+
+The fusion calls end up in:
+
+- `<outdir>/arriba/*.arriba.fusions.tsv`
+- `<outdir>/starfusion/*.starfusion.abridged.tsv`
+
+You will see this warning at startup. **It is harmless**, because it comes from the cluster config:
+
+```
+The following invalid input values have been detected: --igenomes_base
+```
+
 ### Sample sheets
 The contents of the sample sheet will vary depending on which pipline you are using, so be sure to read the manual.
 
